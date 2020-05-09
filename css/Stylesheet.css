@@ -80,6 +80,11 @@ body {
 		text-align: center;
 	}
 
+	.logo img{
+		float:left;
+		width: 103px;
+	}
+
 	nav ul {
 		padding: 0;
 	}
@@ -171,6 +176,9 @@ body {
 		text-align: center;
 		flex: 1;
 	}
+
+	.pointer {cursor: pointer;}
+
 	.tippszu .bildle .ueber1 {
 		position: relative;
 		margin: auto;
@@ -315,7 +323,7 @@ body {
 		/* footer  */
 
 		.footer-basic {
-			padding:40px 0;
+			padding:10px 0;
 			background-color:#ffffff;
 			color:#4b4c4d;
 		}
@@ -493,6 +501,7 @@ body {
 			font-size:36px;
 			font-weight:700;
 			margin-top:60px
+
 		}
 
 		blockquote
@@ -702,6 +711,8 @@ body {
 				margin-top: 70px;
 				margin-bottom: 50px;
 			}
+
+
 
 	#xx{
 		font-size: 72px;
