@@ -774,3 +774,56 @@ body {
 	#kkk{
 		background: steelblue;
 	}
+/*leon*/
+/*css von leon*/
+
+  
+  table {
+    
+	border-collapse: collapse;
+	box-align: center;
+	width: 100%;
+	vertical-align: middle;
+	margin-top: 2%;
+	margin-left: 2%;
+	margin-bottom: 2%;
+	margin-right: 2%;
+  }
+  th {
+	  background-color:lightgrey;
+	  padding: 8px;
+	  margin: 10px;
+	  text-align: center;
+	  width: 40%;
+  }
+  .button {
+	border: 0px;
+	background-color: red;
+  }
+  .button1{
+	  background-color: lightgrey;
+	  border: 0px;
+  }
+
+
+    #number{
+      margin-top: 5%;
+	}
+	td{
+		padding: 30px;
+		margin: 10px;
+		align: center;
+	}
+
+	.summe{
+	
+		margin-top: 1%;
+		text-align: left;
+	}
+	
+	.left{
+		text-align: left;
+	}
+	.right{
+		text-align: right;
+	}
