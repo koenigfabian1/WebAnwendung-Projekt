@@ -28,9 +28,75 @@
 				<li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
 			</ul>
 		</nav>
+		<div class="container">
+				<form action="action_page.php">
 
+						<div class="Anrede">
+								<div class="form-group col-md-4">
+										<label for="Anrede">Anrede:</label>
+										<input id="Anrede" class="form-control full-width" type="text" name="Anrede" placeholder="Anrede" width="50%">
+								</div>
+
+								<div class="col-md-8">
+
+
+										<div class="form-row">
+												<div class="form-group col-md-6">
+														<label for="Vorname">Vorname:</label>
+														<input id="Vorname" class="form-control full-width" type="text" name="Vorname" placeholder="Vorname">
+												</div>
+
+												<div class="form-group col-md-6">
+														<label for="Nachname">Nachname:</label>
+														<input id="Nachname" class="form-control full-width" type="text" name="Nachname" placeholder="Nachname">
+												</div>
+										</div>
+
+										<div class="form-row">
+												<div class="form-group col-md-6">
+														<label for="PLZ">PLZ:</label>
+														<input id="PLZ" class="form-control full-width" type="text" name="PLZ" placeholder="PLZ">
+												</div>
+
+												<div class="form-group col-md-6">
+														<label for="Ort">Ort:</label>
+														<input id="Ort" class="form-control full-width" type="text" name="Ort" placeholder="Ort">
+												</div>
+										</div>
+
+										<div class="form-row">
+												<div class="form-group col-md-6">
+														<label for="Straße">Straße:</label>
+														<input id="Straße" class="form-control full-width" type="text" name="Straße" placeholder="Straße">
+												</div>
+
+												<div class="form-group col-md-6">
+														<label for="Hausnummer">Hausnummer:</label>
+														<input id="Hausnummer" class="form-control full-width" type="text" name="Hausnummer" placeholder="Hausnummer">
+												</div>
+										</div>
+
+
+										<div class="test">
+												<form class="test" action="/action_page.php" method="get">
+														<p>Geben Sie Ihre Zahlungsweise an:</p>
+														<fieldset>
+																<input type="radio" id="mc" name="Zahlmethode" value="Paypal">
+																<label for="mc"> Paypal</label><br />
+																<input type="radio" id="vi" name="Zahlmethode" value="Überweisung">
+																<label for="vi"> Überweisung</label><br />
+																<input type="radio" id="ae" name="Zahlmethode" value="Auf Rechnung">
+																<label for="ae"> Auf Rechnung</label>
+														</fieldset>
+												</form>
+
+
+												<button type="submit" id="Button" disabled="disabled" style="width:125px;float:right; height: 50px;">Bestellvorgang<br />abschließen</button>
+
+</form></div>
+		</div>
 				<!-- footer -->
-	<div class="footer">
+	<div class="footer-basic">
 			<footer>
 				<p>Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2</p>
 			</footer>
