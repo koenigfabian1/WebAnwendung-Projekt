@@ -153,13 +153,12 @@
 
 <script>
 
-$("#addprodukt").click(function() {
-        console.log(window.input1);
+$("#addProduct").click(function() {
 
-  var obj = { "bezeichnung": "Sondersteuer", "steuersatz": 24.5 };
+  var obj = {"id":1,"bezeichnung":"ALCLEAR Waschhandschuh","nettopreis":12.99, "kategorie":{"id":1}, "mehrwertsteuer":{"id":1}};
 
   $.ajax({
-            url: "http://localhost:8000/api/mehrwertsteuer",
+            url: "http://localhost:8000/api/produkt",
             method: "post",
     contentType: "application/json",
     data: JSON.stringify(obj)
