@@ -1,3 +1,14 @@
+$("#addProduct").click(function() {
+  fetch('http://localhost:8000/api/produkt/gib/1').then(function(response) {
+    return response.json();
+  }).then(function(parsedJson) {
+    console.log('This is the parsed json', parsedJson.daten.id);
+  })
+
+
+});
+
+
 // Shorthand function for $(document).ready(...);
 $(async () => {
     // When the "reloadEntries" button is clicked, fetch the guestbook entries
