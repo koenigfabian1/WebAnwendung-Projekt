@@ -14,9 +14,6 @@ try {
     app.listen(HTTP_PORT, () => {
         helper.log("Start Client...");
         helper.log("Client running at localhost on port %PORT%".replace("%PORT%", HTTP_PORT));
-        helper.log("\n\n-----------------------------------------");
-        helper.log("exit / stop Client by pressing 2 x CTRL-C");
-        helper.log("-----------------------------------------\n\n");
     });
 
     app.use('/', express.static(__dirname + '/../../WebAnwendung-Projekt'));
