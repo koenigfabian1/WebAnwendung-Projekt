@@ -38,7 +38,7 @@ try {
         response.sendFile(path.join(__dirname, "../html", "Verkauf3.html"));
     });
 
-    app.get("order_confirm.html", (request, response) => {
+    app.get("/order_confirm.html", (request, response) => {
         response.sendFile(path.join(__dirname, "../html", "order_confirm.html"));
     });
 
