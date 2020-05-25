@@ -350,6 +350,16 @@ body {
 			text-align: center
 		}
 
+		.footer-basic-process{
+			padding:100px 0;
+			background-color:#ffffff;
+			color:#4b4c4d;
+			font-size:13px;
+			color:#aaa;
+			text-align: center
+
+		}
+
 
 		.footer-basic .copyright {
 			margin-top:15px;
