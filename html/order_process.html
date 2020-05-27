@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bestellprozess</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Bestellprozess</title>
 
 	<link rel="stylesheet" href="../css/bootstrap.css">
 	<link rel="stylesheet" href="../css/Stylesheet.css">
@@ -15,8 +17,8 @@
 
 	<script>
 		function myFunction() {
-	   
-			if(document.getElementById('slide1').checked) {
+
+			if (document.getElementById('slide1').checked) {
 				document.getElementById('myLink').href = "order_confirm_uber.html";
 			}
 		}
@@ -26,103 +28,106 @@
 
 
 </head>
-	<body>
-		<div class="pointer">
-			<div class="logo" onclick="window.location.href='start.html'">
-			<img src="../img/DeluxeCar.png"/>
-			</div>
+
+<body>
+	<div class="pointer">
+		<div class="logo" onclick="window.location.href='start.html'">
+			<img src="../img/DeluxeCar.png" />
 		</div>
-		<nav>
+	</div>
+	<nav>
 
-			<ul>
-				<li><a class="navi" href="start.html">Startseite</a></li>
-				<li><a class="navi" href="Verkauf1.html">Handwäsche</a></li>
-				<li><a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a></li>
-				<li><a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a></li>
-				<li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
-			</ul>
-		</nav>
-		<div class="container">
-				<form action="order_confirm.html">
+		<ul>
+			<li><a class="navi" href="start.html">Startseite</a></li>
+			<li><a class="navi" href="Verkauf1.html">Handwäsche</a></li>
+			<li><a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a></li>
+			<li><a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a></li>
+			<li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
+		</ul>
+	</nav>
+	<div class="container">
+		<form action="order_confirm.html">
 
-						<div class="Anrede">
-								<div class="form-group col-md-4">
-										<label for="Anrede">Anrede:</label>
-										<select name="Anrede" id="cars">
-											<option value="Herr">Herr</option>
-											<option value="Frau">Frau</option>
-											<option value="Divers">Divers</option>
-										  </select>
-								</div>
+			<div class="Anrede">
+				<div class="form-group col-md-4">
+					<label for="Anrede">Anrede:</label>
+					<select name="Anrede" id="cars">
+						<option value="Herr">Herr</option>
+						<option value="Frau">Frau</option>
+						<option value="Divers">Divers</option>
+					</select>
+				</div>
 
-								<div class="col-md-8">
-
-
-										<div class="form-row">
-												<div class="form-group col-md-6">
-														<label for="Vorname">Vorname:</label>
-														<input id="Vorname" class="form-control full-width">
-												</div>
-
-												<div class="form-group col-md-6">
-														<label for="Nachname">Nachname:</label>
-														<input id="Nachname" class="form-control full-width">
-												</div>
-										</div>
-
-										<div class="form-row">
-												<div class="form-group col-md-6">
-														<label for="Straße">Straße:</label>
-														<input id="Straße" class="form-control full-width">
-												</div>
-
-												<div class="form-group col-md-6">
-														<label for="Hausnummer">Hausnummer:</label>
-														<input id="Hausnummer" class="form-control full-width">
-												</div>
-										</div>
-
-										<div class="form-row">
-											<div class="form-group col-md-6">
-													<label for="PLZ">PLZ:</label>
-													<input id="PLZ" class="form-control full-width">
-											</div>
-
-											<div class="form-group col-md-6">
-													<label for="Ort">Ort:</label>
-													<input id="Ort" class="form-control full-width">
-											</div>
-									</div>
+				<div class="col-md-8">
 
 
-										<div class="test">
-											
-												<p>Geben Sie Ihre Zahlungsweise an:</p>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="Vorname">Vorname:</label>
+							<input id="Vorname" class="form-control full-width">
+						</div>
 
-													<input type="radio" name="slider" id="slide2" >
-													<label for="mc"> Paypal</label><br />
-													<input checked="" type="radio" name="slider" id="slide1">
-													<label for="vi"> Überweisung</label><br />
-													<input type="radio" name="slider" id="slide3">
-													<label for="ae"> Auf Rechnung</label></div></br>
-													<a href="order_confirm.html" onclick='myFunction()' style="float: right;" id="myLink"><img alt="Button" src="../img/Button.png"/></a>
+						<div class="form-group col-md-6">
+							<label for="Nachname">Nachname:</label>
+							<input id="Nachname" class="form-control full-width">
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="Straße">Straße:</label>
+							<input id="Straße" class="form-control full-width">
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="Hausnummer">Hausnummer:</label>
+							<input id="Hausnummer" class="form-control full-width">
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="PLZ">PLZ:</label>
+							<input id="PLZ" class="form-control full-width">
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="Ort">Ort:</label>
+							<input id="Ort" class="form-control full-width">
+						</div>
+					</div>
 
 
-											
-</form>
+					<div class="test">
 
-</div>
+						<p>Geben Sie Ihre Zahlungsweise an:</p>
 
-		</div>
-
-						<!-- footer -->
-
-		<div class="footer-basic-process">
-			<footer>
-				<p>Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2 <br> <a href="Impressum.html">Impressum</a> | <a href="Kontakt.html">Kontakt</a> </p>
-			</footer>
-		</div>
+						<input type="radio" name="slider" id="slide2">
+						<label for="mc"> Paypal</label><br />
+						<input checked="" type="radio" name="slider" id="slide1">
+						<label for="vi"> Überweisung</label><br />
+						<input type="radio" name="slider" id="slide3">
+						<label for="ae"> Auf Rechnung</label>
+					</div></br>
+					<a href="order_confirm.html" onclick='myFunction()' style="float: right;" id="myLink"><img alt="Button" src="../img/Button.png" /></a>
 
 
-	</body>
+
+		</form>
+
+	</div>
+
+	</div>
+
+	<!-- footer -->
+
+	<div class="footer-basic-process">
+		<footer>
+			<p>Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2 <br> <a href="Impressum.html">Impressum</a> | <a href="Kontakt.html">Kontakt</a> </p>
+		</footer>
+	</div>
+
+
+</body>
+
 </html>
