@@ -9,8 +9,22 @@
 	<link rel="stylesheet" href="../css/Stylesheet.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+
+	<script>
+		function myFunction() {
+	   
+			if(document.getElementById('slide1').checked) {
+				document.getElementById('myLink').href = "order_confirm_uber.html";
+			}
+		}
+	</script>
+
+
+
+
 </head>
 	<body>
 		<div class="pointer">
@@ -34,7 +48,11 @@
 						<div class="Anrede">
 								<div class="form-group col-md-4">
 										<label for="Anrede">Anrede:</label>
-										<input id="Anrede" class="form-control full-width">
+										<select name="Anrede" id="cars">
+											<option value="Herr">Herr</option>
+											<option value="Frau">Frau</option>
+											<option value="Divers">Divers</option>
+										  </select>
 								</div>
 
 								<div class="col-md-8">
@@ -54,18 +72,6 @@
 
 										<div class="form-row">
 												<div class="form-group col-md-6">
-														<label for="PLZ">PLZ:</label>
-														<input id="PLZ" class="form-control full-width">
-												</div>
-
-												<div class="form-group col-md-6">
-														<label for="Ort">Ort:</label>
-														<input id="Ort" class="form-control full-width">
-												</div>
-										</div>
-
-										<div class="form-row">
-												<div class="form-group col-md-6">
 														<label for="Straße">Straße:</label>
 														<input id="Straße" class="form-control full-width">
 												</div>
@@ -76,20 +82,35 @@
 												</div>
 										</div>
 
+										<div class="form-row">
+											<div class="form-group col-md-6">
+													<label for="PLZ">PLZ:</label>
+													<input id="PLZ" class="form-control full-width">
+											</div>
+
+											<div class="form-group col-md-6">
+													<label for="Ort">Ort:</label>
+													<input id="Ort" class="form-control full-width">
+											</div>
+									</div>
+
 
 										<div class="test">
-											<form class="test">
+											
 												<p>Geben Sie Ihre Zahlungsweise an:</p>
-													<input type="radio" id="mc" name="Zahlungsweise">
-													<label for="mc"> Paypal</label><br />
-													<input type="radio" id="vi" name="Zahlungsweise">
-													<label for="vi"> Überweisung</label><br />
-													<input type="radio" id="ae" name="Zahlungsweise">
-													<label for="ae"> Auf Rechnung</label>
 
-											</form>
+													<input type="radio" name="slider" id="slide2" >
+													<label for="mc"> Paypal</label><br />
+													<input checked="" type="radio" name="slider" id="slide1">
+													<label for="vi"> Überweisung</label><br />
+													<input type="radio" name="slider" id="slide3">
+													<label for="ae"> Auf Rechnung</label></div></br>
+													<a href="order_confirm.html" onclick='myFunction()' style="float: right;" id="myLink"><img alt="Button" src="../img/Button.png"/></a>
+
+
+											
 </form>
-<a href="order_confirm.html" style="float:right"><button>Bestellung </br>abschließen</button></a>
+
 </div>
 
 		</div>
