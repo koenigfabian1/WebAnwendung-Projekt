@@ -1035,6 +1035,7 @@ td {
   text-align: right;
 }
 
+
 /* Style inputs with type="text", select elements and textareas */
 input[type=text], select, textarea {
   width: 100%;
@@ -1103,3 +1104,4 @@ input[type=submit]:hover {
   display: table;
   clear: both;
 }
+
