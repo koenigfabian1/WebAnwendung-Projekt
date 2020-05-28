@@ -40,6 +40,13 @@ h7, .h7 {
   text-decoration: underline;
 }
 
+h8, .h8 {
+	font-size: 25px;
+	text-color: blue;
+	text-decoration: underline;
+}
+
+
 a.one {
   font-size: 50px;
 }
