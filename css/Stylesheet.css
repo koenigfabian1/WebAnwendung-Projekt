@@ -1112,3 +1112,6 @@ input[type=submit]:hover {
   clear: both;
 }
 
+.großeschrift{
+  font-size: 120%;
+}
