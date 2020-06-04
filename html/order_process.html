@@ -1,108 +1,139 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bestellprozess</title>
 
-	<link rel="stylesheet" href="../css/bootstrap.css">
-	<link rel="stylesheet" href="../css/Stylesheet.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/Stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        function myFunction() {
+
+            if (document.getElementById('slide1').checked) {
+                document.getElementById('myLink').href = "order_confirm_uber.html";
+            }
+            if (document.getElementById('slide3').checked) {
+                document.getElementById('myLink').href = "order_confirm_Rech.html";
+            }
+            if (document.getElementById('slide2').checked) {
+                document.getElementById('myLink').href = "order_confirm.html";
+            }
+        }
+    </script>
+
+
+
+
 </head>
-	<body>
-		<div class="pointer">
-			<div class="logo" onclick="window.location.href='start.html'">
-			<img src="../img/DeluxeCar.png"/>
-			</div>
-		</div>
-		<nav>
 
-			<ul>
-				<li><a class="navi" href="start.html">Startseite</a></li>
-				<li><a class="navi" href="Verkauf1.html">Handwäsche</a></li>
-				<li><a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a></li>
-				<li><a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a></li>
-				<li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
-			</ul>
-		</nav>
-		<div class="container">
-				<form action="action_page.php">
+<body>
+    <div class="pointer">
+        <div class="logo" onclick="window.location.href='start.html'">
+            <img src="../img/DeluxeCar.png" />
+        </div>
+    </div>
+    <nav>
 
-						<div class="Anrede">
-								<div class="form-group col-md-4">
-										<label for="Anrede">Anrede:</label>
-										<input id="Anrede" class="form-control full-width" type="text" name="Anrede" placeholder="Anrede" width="50%">
-								</div>
+        <ul>
+            <li><a class="navi" href="start.html">Startseite</a></li>
+            <li><a class="navi" href="Verkauf1.html">Handwäsche</a></li>
+            <li><a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a></li>
+            <li><a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a></li>
+            <li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <form action="order_confirm.html">
 
-								<div class="col-md-8">
+            <div class="Anrede">
+                <div class="form-group col-md-4">
+                    <label for="Anrede">Anrede:</label>
+                    <select name="Anrede" id="cars">
+                        <option value="Herr">Herr</option>
+                        <option value="Frau">Frau</option>
+                        <option value="Divers">Divers</option>
+                    </select>
+                </div>
 
-
-										<div class="form-row">
-												<div class="form-group col-md-6">
-														<label for="Vorname">Vorname:</label>
-														<input id="Vorname" class="form-control full-width" type="text" name="Vorname" placeholder="Vorname">
-												</div>
-
-												<div class="form-group col-md-6">
-														<label for="Nachname">Nachname:</label>
-														<input id="Nachname" class="form-control full-width" type="text" name="Nachname" placeholder="Nachname">
-												</div>
-										</div>
-
-										<div class="form-row">
-												<div class="form-group col-md-6">
-														<label for="PLZ">PLZ:</label>
-														<input id="PLZ" class="form-control full-width" type="text" name="PLZ" placeholder="PLZ">
-												</div>
-
-												<div class="form-group col-md-6">
-														<label for="Ort">Ort:</label>
-														<input id="Ort" class="form-control full-width" type="text" name="Ort" placeholder="Ort">
-												</div>
-										</div>
-
-										<div class="form-row">
-												<div class="form-group col-md-6">
-														<label for="Straße">Straße:</label>
-														<input id="Straße" class="form-control full-width" type="text" name="Straße" placeholder="Straße">
-												</div>
-
-												<div class="form-group col-md-6">
-														<label for="Hausnummer">Hausnummer:</label>
-														<input id="Hausnummer" class="form-control full-width" type="text" name="Hausnummer" placeholder="Hausnummer">
-												</div>
-										</div>
+                <div class="col-md-8">
 
 
-										<div class="test">
-											<form class="test" action="https://de.w3docs.com">
-												<p>Geben Sie Ihre Zahlungsweise an:</p>
-												<fieldset>
-													<input type="radio" id="mc" name="Zahlmethode" value="Paypal">
-													<label for="mc"> Paypal</label><br />
-													<input type="radio" id="vi" name="Zahlmethode" value="Überweisung">
-													<label for="vi"> Überweisung</label><br />
-													<input type="radio" id="ae" name="Zahlmethode" value="Auf Rechnung">
-													<label for="ae"> Auf Rechnung</label>
-													<button style="float:right"; type="submit" formaction="order_confirm.html">Bestellvorgang<br />abschließen</button>
-												</fieldset>
-											</form>
-											
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Vorname">Vorname:</label>
+                            <input id="Vorname" class="form-control full-width">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="Nachname">Nachname:</label>
+                            <input id="Nachname" class="form-control full-width">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Straße">Straße:</label>
+                            <input id="Straße" class="form-control full-width">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="Hausnummer">Hausnummer:</label>
+                            <input id="Hausnummer" class="form-control full-width">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="PLZ">PLZ:</label>
+                            <input id="PLZ" class="form-control full-width">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="Ort">Ort:</label>
+                            <input id="Ort" class="form-control full-width">
+                        </div>
+                    </div>
+
+
+                    <div class="test">
+
+                        <p>Geben Sie Ihre Zahlungsweise an:</p>
+
+                        <input type="radio" name="slider" id="slide2">
+                        <label for="mc"> Paypal</label><br />
+                        <input checked="" type="radio" name="slider" id="slide1">
+                        <label for="vi"> Überweisung</label><br />
+                        <input type="radio" name="slider" id="slide3">
+                        <label for="ae"> Auf Rechnung</label>
+                    </div></br>
+                    <a href="order_confirm.html" onclick='myFunction()' style="float: right;" id="myLink"><img alt="Button" src="../img/Button.png" /></a>
 
 
 
-</form></div>
-		</div>
-						<!-- footer -->
-		<div class="container">
-		<div class="footer-basic">
-			<footer>
-				<p class="copyright">Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2</p>
-			</footer>
-		</div>
+        </form>
 
-	</body>
+    </div>
+
+    </div>
+
+    <!-- footer -->
+
+    <div class="footer-basic-process">
+        <footer>
+            <p>Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2 <br> <a href="Impressum.html">Impressum</a> | <a href="Kontakt.html">Kontakt</a> </p>
+        </footer>
+    </div>
+
+
+</body>
+
 </html>
