@@ -18,7 +18,7 @@ class AdresseDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         result = helper.objectKeysToLower(result);
@@ -37,9 +37,9 @@ class AdresseDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         result = helper.arrayObjectKeysToLower(result);
 
         for (var i = 0; i < result.length; i++) {
@@ -60,32 +60,32 @@ class AdresseDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (result.cnt == 1) 
+        if (result.cnt == 1)
             return true;
 
         return false;
     }
 
-    create(strasse = "", hausnummer = "", adresszusatz = "", plz = "", ort = "", landid = 1) {
-        var sql = "INSERT INTO Adresse (Strasse,Hausnummer,Adresszusatz,PLZ,Ort,LandID) VALUES (?,?,?,?,?,?)";
+    create(strasse = "", hausnummer = "", plz = "", ort = "") {
+        var sql = "INSERT INTO Adresse (Strasse,Hausnummer,PLZ,Ort) VALUES (?,?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [strasse, hausnummer, adresszusatz, plz, ort, landid];
+        var params = [strasse, hausnummer, plz, ort];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
 
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
 
-    update(id, strasse = "", hausnummer = "", adresszusatz = "", plz = "", ort = "", landid = 1) {
-        var sql = "UPDATE Adresse SET Strasse=?,Hausnummer=?,Adresszusatz=?,PLZ=?,Ort=?,LandID=? WHERE ID=?";
+    update(id, strasse = "", hausnummer = "", plz = "", ort = "") {
+        var sql = "UPDATE Adresse SET Strasse=?,Hausnummer=?,PLZ=?,Ort=? WHERE ID=?";
         var statement = this._conn.prepare(sql);
-        var params = [strasse, hausnummer, adresszusatz, plz, ort, landid, id];
+        var params = [strasse, hausnummer, plz, ort, id];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not update existing Record. Data: " + params);
 
         var updatedObj = this.loadById(id);
@@ -98,7 +98,7 @@ class AdresseDao {
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
-            if (result.changes != 1) 
+            if (result.changes != 1)
                 throw new Error("Could not delete Record by id=" + id);
 
             return true;
