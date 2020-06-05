@@ -163,8 +163,17 @@
   $(document).ready(function() {
 
 //AJAX for the logo
+//-----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 //AJAX for the NAVBAR
+//-----------------------------------------------------------------------------------------
 $.ajax({
   url: "http://localhost:8000/api/produktkategorie/gib/1",
   method: "get",
@@ -204,7 +213,9 @@ $.ajax({
   $("#output").html("Ein Fehler ist aufgetreten");
 });
 
+
 //AJAX for each Product
+//-----------------------------------------------------------------------------------------
 $.ajax({
   url: "http://localhost:8000/api/produkt/gib/1",
   method: "get",
