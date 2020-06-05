@@ -55,8 +55,8 @@
             </div>
           </div> -->
         </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="product-grid2">
+        <div id="Verkauf1_EimerGritGuard"class="col-md-3 col-sm-6">
+          <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="EimerGritGuard.html">
                 <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/51yi-JJt6PL._AC_SY355_.jpg">
@@ -71,9 +71,9 @@
               <button id="addProduct2" onclick="Input1()">In den Warenkorb</button>
             </div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="product-grid2">
+        </div> -->
+        <div id="Verkauf1_GloriaFM10" class="col-md-3 col-sm-6">
+          <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="GloriaFM10.html">
 
@@ -89,9 +89,9 @@
               <button id="addProduct3" onclick="Input1()">In den Warenkorb</button>
             </div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="product-grid2">
+        </div> -->
+        <div id="Verkauf1_GloriaTopFoam"class="col-md-3 col-sm-6">
+          <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="GLORIATopFoam.html">
                 <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/61jmMJRxtNL._SL1500_.jpg">
@@ -106,9 +106,9 @@
               <button id="addProduct4" onclick="Input1()">In den Warenkorb</button>
             </div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="product-grid2">
+        </div> -->
+        <div id="SONAXAutoShampoo" class="col-md-3 col-sm-6">
+          <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="SONAXAutoShampoo.html">
                 <img class="pic-1" src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.polarautovaruste.com%2Fgraphics%2Fproducts%2Fthumbnails%2Fppicn_sonax_autoshampoo_cf6bdbe0.jpg&f=1">
@@ -122,9 +122,9 @@
               <button id="addProduct5" onclick="Input1()">In den Warenkorb</button>
             </div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="product-grid2">
+        </div> -->
+        <div id="PetzoldsLackknete" class="col-md-3 col-sm-6">
+          <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="PetzoldsLackknete.html">
                 <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/81iewTV55oL._AC_SY355_.jpg">
@@ -139,7 +139,7 @@
               <button id="addProduct6" onclick="Input1()">In den Warenkorb</button>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -159,7 +159,7 @@
 
 <script>
   $(document).ready(function() {
-
+//##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/1",
       method: "get",
@@ -187,6 +187,7 @@
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
+//##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/12",
       method: "get",
@@ -208,8 +209,9 @@
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
+//##########################################################################################
     $.ajax({
-      url: "http://localhost:8000/api/produkt/gib/1",
+      url: "http://localhost:8000/api/produkt/gib/11",
       method: "get",
       dataType: "json"
     }).done(function(response) {
@@ -229,8 +231,9 @@
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
+//##########################################################################################
     $.ajax({
-      url: "http://localhost:8000/api/produkt/gib/1",
+      url: "http://localhost:8000/api/produkt/gib/10",
       method: "get",
       dataType: "json"
     }).done(function(response) {
@@ -250,9 +253,9 @@
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
-
+//##########################################################################################
     $.ajax({
-      url: "http://localhost:8000/api/produkt/gib/1",
+      url: "http://localhost:8000/api/produkt/gib/9",
       method: "get",
       dataType: "json"
     }).done(function(response) {
@@ -272,8 +275,9 @@
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
+//##########################################################################################
     $.ajax({
-      url: "http://localhost:8000/api/produkt/gib/1",
+      url: "http://localhost:8000/api/produkt/gib/8",
       method: "get",
       dataType: "json"
     }).done(function(response) {
@@ -293,4 +297,6 @@
       $("#output").html("Ein Fehler ist aufgetreten");
     });
   });
+
+
 </script>
