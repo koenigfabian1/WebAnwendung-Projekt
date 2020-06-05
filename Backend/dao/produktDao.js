@@ -17,7 +17,7 @@ class ProduktDao {
     loadById(id) {
         const produktkategorieDao = new ProduktkategorieDao(this._conn);
         const mehrwertsteuerDao = new MehrwertsteuerDao(this._conn);
-        const downloadDao = new DownloadDao(this._conn);
+        //const downloadDao = new DownloadDao(this._conn);
         //const Dao = new Dao(this._conn);
 
         var sql = "SELECT * FROM Produkt WHERE ID=?";
@@ -33,12 +33,12 @@ class ProduktDao {
         delete result.kategorieid;
         result.mehrwertsteuer = mehrwertsteuerDao.loadById(result.mehrwertsteuerid);
         delete result.mehrwertsteuerid;
-        if (helper.isNull(result.datenblattid)) {
-            result.datenblatt = null;
-        } else {
-            result.datenblatt = downloadDao.loadById(result.datenblattid);
-        }
-        delete result.datenblattid;
+        //if (helper.isNull(result.datenblattid)) {
+        //    result.datenblatt = null;
+        //} else {
+        //    result.datenblatt = downloadDao.loadById(result.datenblattid);
+        //}
+        //delete result.datenblattid;
         //result.bilder = produktbildDao.loadByParent(result.id);
         //for (i = 0; i < result.bilder.length; i++) {
         //    delete result.bilder[i].produktid;
@@ -58,7 +58,7 @@ class ProduktDao {
         var taxes = mehrwertsteuerDao.loadAll();
         //const produktbildDao = new ProduktbildDao(this._conn);
         //var pictures = produktbildDao.loadAll();
-        const downloadDao = new DownloadDao(this._conn);
+        //const downloadDao = new DownloadDao(this._conn);
 
         var sql = "SELECT * FROM Produkt";
         var statement = this._conn.prepare(sql);
@@ -86,12 +86,12 @@ class ProduktDao {
             }
             delete result[i].mehrwertsteuerid;
 
-            if (helper.isNull(result[i].datenblattid)) {
-                result[i].datenblatt = null;
-            } else {
-                result[i].datenblatt = downloadDao.loadById(result[i].datenblattid);
-            }
-            delete result[i].datenblattid;
+          //  if (helper.isNull(result[i].datenblattid)) {
+          //      result[i].datenblatt = null;
+          //  } else {
+          //      result[i].datenblatt = downloadDao.loadById(result[i].datenblattid);
+          //  }
+          //  delete result[i].datenblattid;
 
             result[i].bilder = [];
             for (var element of pictures) {
