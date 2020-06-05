@@ -160,33 +160,32 @@
 <script>
   $(document).ready(function() {
 //##########################################################################################
-    $.ajax({
-      url: "http://localhost:8000/api/produkt/gib/1",
-      method: "get",
-      dataType: "json"
-    }).done(function(response) {
-      var tmp ='<div class="product-grid2">
-        <div class="product-image2">
-          <a href="ALCLEARWaschhandschuh.html">
-            <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg">
-            <img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg">
-          </a>
-          <a class="add-to-cart" href="ALCLEARWaschhandschuh.html">' + response.daten.beschreibungklein + '</a>
-        </div>
-        <div class="product-content">
-          <h3 class="title"><a href="ALCLEARWaschhandschuh.html">' + response.daten.name + '</br>' + response.daten.bruttopreis + '</br>inkl. MwSt.</a></h3>
-          <input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
-          <button id="addProduct1" onclick="Input1()">In den Warenkorb</button>
-        </div>
-      </div>'
+$.ajax({
+    url: "http://localhost:8000/api/produkt/gib/1",
+    method: "get",
+    dataType: "json"
+  }).done(function(response) {
+    var tmp ='<div class="product-grid2">
+      <div class="product-image2">
+        <a href="ALCLEARWaschhandschuh.html">
+          <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg">
+          <img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg">
+        </a>
+        <a class="add-to-cart" href="ALCLEARWaschhandschuh.html">' + response.daten.beschreibungklein + '</a>
+      </div>
+      <div class="product-content">
+        <h3 class="title"><a href="ALCLEARWaschhandschuh.html">' + response.daten.name + '</br>' + response.daten.bruttopreis + '</br>inkl. MwSt.</a></h3>
+        <input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
+        <button id="addProduct1" onclick="Input1()">In den Warenkorb</button>
+      </div>
+    </div>'
 
-      $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
+    $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
 
-    }).fail(function(jqXHR, statusText, error) {
-      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-      $("#output").html("Ein Fehler ist aufgetreten");
-    });
-
+  }).fail(function(jqXHR, statusText, error) {
+    console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+    $("#output").html("Ein Fehler ist aufgetreten");
+  });
 //##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/12",
@@ -194,15 +193,15 @@
       dataType: "json"
     }).done(function(response) {
       var tmp = '';
-      tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "ALCLEARWaschhandschuh.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="ALCLEARWaschhandschuh.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+      tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "EimerGritGuard.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="EimerGritGuard.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
       tmp += response.daten.name;
       tmp += '</br>';
-      tmp += response.daten.nettopreis;
-      tmp += '€</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
+      tmp += response.daten.bruttopreis;
+      tmp += ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
       //console.log(tmp);
 
-      $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
+      $('#Verkauf1_EimerGritGuard').html(tmp);
 
     }).fail(function(jqXHR, statusText, error) {
       console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
