@@ -18,22 +18,29 @@
 
 <body>
   <div class="pointer">
-    <div id="Verkauf1_Logo"class="logo" onclick="window.location.href='start.html'">
+    <div id="Verkauf1_Logo" class="logo" onclick="window.location.href='start.html'">
       <!--<img src="../img/DeluxeCar.png" /> -->
     </div>
   </div>
   <nav>
     <ul>
       <li><a class="navi" href="start.html">Startseite</a></li>
-      <li><a id="Verkauf1_Handwäsche" class="navi" href="Verkauf1.html"><!--Handwäsche--></a></li>
-      <li id="Verkauf1_Polituren_und_Poliermaschinen"><!--<a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a>--></li>
-      <li id="Verkauf1_Versiegelungen_und_Wachse"><!--<a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a>--></li>
+      <li><a id="Verkauf1_Handwäsche" class="navi" href="Verkauf1.html">
+          <!--Handwäsche--></a></li>
+      <li id="Verkauf1_Polituren_und_Poliermaschinen">
+        <!--<a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a>-->
+      </li>
+      <li id="Verkauf1_Versiegelungen_und_Wachse">
+        <!--<a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a>-->
+      </li>
       <li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
     </ul>
   </nav>
 
   <div class="currentposition">
-    <h7 id="Verkauf1_Handwäsche"><!--Handwäsche--></h7>
+    <h7 id="Verkauf1_Handwäsche">
+      <!--Handwäsche-->
+    </h7>
   </div>
   <div class="pointer1">
     <div class="container wasdienedgeschafthaben">
@@ -55,7 +62,7 @@
             </div>
           </div> -->
         </div>
-        <div id="Verkauf1_EimerGritGuard"class="col-md-3 col-sm-6">
+        <div id="Verkauf1_EimerGritGuard" class="col-md-3 col-sm-6">
           <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="EimerGritGuard.html">
@@ -70,8 +77,8 @@
               <input step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
               <button id="addProduct2" onclick="Input1()">In den Warenkorb</button>
             </div>
-          </div>
-        </div> -->
+          </div>-->
+        </div>
         <div id="Verkauf1_GloriaFM10" class="col-md-3 col-sm-6">
           <!--<div class="product-grid2">
             <div class="product-image2">
@@ -88,9 +95,9 @@
               <input step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
               <button id="addProduct3" onclick="Input1()">In den Warenkorb</button>
             </div>
-          </div>
-        </div> -->
-        <div id="Verkauf1_GloriaTopFoam"class="col-md-3 col-sm-6">
+          </div> -->
+        </div>
+        <div id="Verkauf1_GloriaTopFoam" class="col-md-3 col-sm-6">
           <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="GLORIATopFoam.html">
@@ -105,9 +112,9 @@
               <input step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
               <button id="addProduct4" onclick="Input1()">In den Warenkorb</button>
             </div>
-          </div>
-        </div> -->
-        <div id="SONAXAutoShampoo" class="col-md-3 col-sm-6">
+          </div> -->
+        </div>
+        <div id="Verkauf1_SONAXAutoShampoo" class="col-md-3 col-sm-6">
           <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="SONAXAutoShampoo.html">
@@ -121,9 +128,9 @@
               <input step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
               <button id="addProduct5" onclick="Input1()">In den Warenkorb</button>
             </div>
-          </div>
-        </div> -->
-        <div id="PetzoldsLackknete" class="col-md-3 col-sm-6">
+          </div> -->
+        </div>
+        <div id="Verkauf1_PetzoldsLackknete" class="col-md-3 col-sm-6">
           <!--<div class="product-grid2">
             <div class="product-image2">
               <a href="PetzoldsLackknete.html">
@@ -138,8 +145,8 @@
               <input step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
               <button id="addProduct6" onclick="Input1()">In den Warenkorb</button>
             </div>
-          </div>
-        </div> -->
+          </div>-->
+        </div>
 
       </div>
     </div>
@@ -153,6 +160,7 @@
       <p>Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2 <br> <a href="Impressum.html">Impressum</a> | <a href="Kontakt.html">Kontakt</a> </p>
     </footer>
   </div>
+
 </body>
 
 </html>
@@ -162,94 +170,98 @@
 <script>
   $(document).ready(function() {
 
-//AJAX for the logo
-//-----------------------------------------------------------------------------------------
+    //AJAX for the logo
+    //-------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produkt/gib/19",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<img src="' + response.daten.bilder[0].bildpfad + '">';
+      $('#Verkauf1_Logo').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //AJAX for the NAVBAR
+    //---------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/1",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = response.daten.bezeichnung;
+      $('#Verkauf1_Handwäsche').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //##########################################################################################
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/2",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<a class="navi" href="Verkauf2.html">' + response.daten.bezeichnung + '</a>';
+      $('#Verkauf1_Polituren_und_Poliermaschinen').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //##########################################################################################
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/3",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<a class="navi" href="Verkauf3.html">' + response.daten.bezeichnung + '</a>';
+      $('#Verkauf1_Versiegelungen_und_Wachse').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
 
 
+    //AJAX for each Product
+    //----------------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produkt/gib/1",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '';
+      tmp += '<div class="product-grid2"><div class ="product-image2"><a href = "ALCLEARWaschhandschuh.html"><img class ="pic-1" src ="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[1].bildpfad +
+        '"></a><a class="add-to-cart" href="ALCLEARWaschhandschuh.html">' + response.daten.beschreibungklein + '</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+      tmp += response.daten.name;
+      tmp += '</br>';
+      tmp += response.daten.bruttopreis.toString().replace('.', ',');
+      tmp +=
+        ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
+      $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
 
-
-
-
-
-//AJAX for the NAVBAR
-//-----------------------------------------------------------------------------------------
-$.ajax({
-  url: "http://localhost:8000/api/produktkategorie/gib/1",
-  method: "get",
-  dataType: "json"
-}).done(function(response) {
-  var tmp = response.daten.bezeichnung;
-  $('#Verkauf1_Handwäsche').html(tmp);
-
-}).fail(function(jqXHR, statusText, error) {
-  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-  $("#output").html("Ein Fehler ist aufgetreten");
-});
-//##########################################################################################
-$.ajax({
-  url: "http://localhost:8000/api/produktkategorie/gib/2",
-  method: "get",
-  dataType: "json"
-}).done(function(response) {
-  var tmp = '<a class="navi" href="Verkauf2.html">'+ response.daten.bezeichnung + '</a>';
-  $('#Verkauf1_Polituren_und_Poliermaschinen').html(tmp);
-
-}).fail(function(jqXHR, statusText, error) {
-  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-  $("#output").html("Ein Fehler ist aufgetreten");
-});
-//##########################################################################################
-$.ajax({
-  url: "http://localhost:8000/api/produktkategorie/gib/3",
-  method: "get",
-  dataType: "json"
-}).done(function(response) {
-  var tmp = '<a class="navi" href="Verkauf3.html">'+ response.daten.bezeichnung + '</a>';
-  $('#Verkauf1_Versiegelungen_und_Wachse').html(tmp);
-
-}).fail(function(jqXHR, statusText, error) {
-  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-  $("#output").html("Ein Fehler ist aufgetreten");
-});
-
-
-//AJAX for each Product
-//-----------------------------------------------------------------------------------------
-$.ajax({
-  url: "http://localhost:8000/api/produkt/gib/1",
-  method: "get",
-  dataType: "json"
-}).done(function(response) {
-  var tmp = '';
-  tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "EimerGritGuard.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="EimerGritGuard.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
-  tmp += response.daten.name;
-  tmp += '</br>';
-  tmp += response.daten.bruttopreis;
-  tmp += ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
-
-  //console.log(tmp);
-
-  $('#Verkauf1_EimerGritGuard').html(tmp);
-
-}).fail(function(jqXHR, statusText, error) {
-  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-  $("#output").html("Ein Fehler ist aufgetreten");
-});
-//##########################################################################################
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/12",
       method: "get",
       dataType: "json"
     }).done(function(response) {
       var tmp = '';
-      tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "EimerGritGuard.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="EimerGritGuard.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+      tmp += '<div class="product-grid2"><div class ="product-image2"><a href = "EimerGritGuard.html"><img class ="pic-1" src ="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[1].bildpfad +
+        '"></a><a class="add-to-cart" href="EimerGritGuard.html">' + response.daten.beschreibungklein + '</a></div><div class="product-content"><h3 class="title"><a href="EimerGritGuard.html">';
       tmp += response.daten.name;
       tmp += '</br>';
-      tmp += response.daten.bruttopreis;
-      tmp += ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
-
-      //console.log(tmp);
+      tmp += response.daten.bruttopreis.toString().replace(".",",");
+      tmp +=
+        ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
       $('#Verkauf1_EimerGritGuard').html(tmp);
 
@@ -258,94 +270,100 @@ $.ajax({
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
-//##########################################################################################
+    //##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/11",
       method: "get",
       dataType: "json"
     }).done(function(response) {
       var tmp = '';
-      tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "ALCLEARWaschhandschuh.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="ALCLEARWaschhandschuh.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+      tmp += '<div class="product-grid2"><div class ="product-image2"><a href = "GloriaFM10.html"><img class ="pic-1" src ="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[1].bildpfad +
+        '"></a><a class="add-to-cart" href="GloriaFM10.html">' + response.daten.beschreibungklein + '</a></div><div class="product-content"><h3 class="title"><a href="GloriaFM10.html">';
       tmp += response.daten.name;
       tmp += '</br>';
-      tmp += response.daten.nettopreis;
-      tmp += '€</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
+      tmp += response.daten.bruttopreis.toString().replace(".", ",");
+      tmp +=
+        ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
-      //console.log(tmp);
 
-      $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
+      $('#Verkauf1_GloriaFM10').html(tmp);
 
     }).fail(function(jqXHR, statusText, error) {
       console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
-//##########################################################################################
+    //##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/10",
       method: "get",
       dataType: "json"
     }).done(function(response) {
       var tmp = '';
-      tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "ALCLEARWaschhandschuh.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="ALCLEARWaschhandschuh.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+      tmp += '<div class="product-grid2"><div class ="product-image2"><a href = "GLORIATopFoam.html"><img class ="pic-1" src ="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[1].bildpfad +
+        '"></a><a class="add-to-cart" href="GLORIATopFoam.html">' + response.daten.beschreibungklein + '</a></div><div class="product-content"><h3 class="title"><a href="GLORIATopFoam.html">';
       tmp += response.daten.name;
       tmp += '</br>';
-      tmp += response.daten.nettopreis;
-      tmp += '€</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
+      tmp += response.daten.bruttopreis.toString().replace(".", ",");
+      tmp +=
+        ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
       //console.log(tmp);
 
-      $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
+      $('#Verkauf1_GloriaTopFoam').html(tmp);
 
     }).fail(function(jqXHR, statusText, error) {
       console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
-//##########################################################################################
+    //##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/9",
       method: "get",
       dataType: "json"
     }).done(function(response) {
       var tmp = '';
-      tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "ALCLEARWaschhandschuh.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="ALCLEARWaschhandschuh.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+      tmp += '<div class="product-grid2"><div class ="product-image2"><a href = "SONAXAutoShampoo.html"><img class ="pic-1" src ="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[1].bildpfad +
+        '"></a><a class="add-to-cart" href="SONAXAutoShampoo.html">' + response.daten.beschreibungklein + '</a></div><div class="product-content"><h3 class="title"><a href="SONAXAutoShampoo.html">';
       tmp += response.daten.name;
       tmp += '</br>';
-      tmp += response.daten.nettopreis;
-      tmp += '€</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
+      tmp += response.daten.bruttopreis.toString().replace(".", ",");
+      tmp +=
+        ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
       //console.log(tmp);
 
-      $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
+      $('#Verkauf1_SONAXAutoShampoo').html(tmp);
 
     }).fail(function(jqXHR, statusText, error) {
       console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
       $("#output").html("Ein Fehler ist aufgetreten");
     });
 
-//##########################################################################################
+    //##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/8",
       method: "get",
       dataType: "json"
     }).done(function(response) {
       var tmp = '';
-      tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "ALCLEARWaschhandschuh.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="ALCLEARWaschhandschuh.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+      tmp += '<div class="product-grid2"><div class ="product-image2"><a href = "PetzoldsLackknete.html"><img class ="pic-1" src ="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[0].bildpfad +
+        '"></a><a class="add-to-cart" href="PetzoldsLackknete.html">' + response.daten.beschreibungklein + '</a></div><div class="product-content"><h3 class="title"><a href="PetzoldsLackknete.html">';
       tmp += response.daten.name;
       tmp += '</br>';
-      tmp += response.daten.nettopreis;
-      tmp += '€</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
+      tmp += response.daten.bruttopreis.toString().replace(".", ",");
+      tmp +=
+        ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
       //console.log(tmp);
 
-      $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
+      $('#Verkauf1_PetzoldsLackknete').html(tmp);
 
     }).fail(function(jqXHR, statusText, error) {
       console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
       $("#output").html("Ein Fehler ist aufgetreten");
     });
+
   });
-
-
 </script>
