@@ -26,8 +26,8 @@
     <ul>
       <li><a class="navi" href="start.html">Startseite</a></li>
       <li><a id="Verkauf1_Handwäsche" class="navi" href="Verkauf1.html"><!--Handwäsche--></a></li>
-      <li id="Verkauf1_Polituren und Poliermaschinen"><!--<a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a>--></li>
-      <li id="Verkauf1_Versiegelungen und Wachse"><!--<a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a>--></li>
+      <li id="Verkauf1_Polituren_und_Poliermaschinen"><!--<a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a>--></li>
+      <li id="Verkauf1_Versiegelungen_und_Wachse"><!--<a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a>--></li>
       <li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
     </ul>
   </nav>
@@ -157,39 +157,74 @@
 
 </html>
 
+<!--------------------------------------------------------------------------------------------------------------------->
+
 <script>
   $(document).ready(function() {
+
 //AJAX for the logo
 
 //AJAX for the NAVBAR
+$.ajax({
+  url: "http://localhost:8000/api/produktkategorie/gib/1",
+  method: "get",
+  dataType: "json"
+}).done(function(response) {
+  var tmp = response.daten.bezeichnung;
+  $('#Verkauf1_Handwäsche').html(tmp);
+
+}).fail(function(jqXHR, statusText, error) {
+  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+  $("#output").html("Ein Fehler ist aufgetreten");
+});
+//##########################################################################################
+$.ajax({
+  url: "http://localhost:8000/api/produktkategorie/gib/2",
+  method: "get",
+  dataType: "json"
+}).done(function(response) {
+  var tmp = '<a class="navi" href="Verkauf2.html">'+ response.daten.bezeichnung + '</a>';
+  $('#Verkauf1_Polituren_und_Poliermaschinen').html(tmp);
+
+}).fail(function(jqXHR, statusText, error) {
+  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+  $("#output").html("Ein Fehler ist aufgetreten");
+});
+//##########################################################################################
+$.ajax({
+  url: "http://localhost:8000/api/produktkategorie/gib/3",
+  method: "get",
+  dataType: "json"
+}).done(function(response) {
+  var tmp = '<a class="navi" href="Verkauf3.html">'+ response.daten.bezeichnung + '</a>';
+  $('#Verkauf1_Versiegelungen_und_Wachse').html(tmp);
+
+}).fail(function(jqXHR, statusText, error) {
+  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+  $("#output").html("Ein Fehler ist aufgetreten");
+});
 
 //AJAX for each Product
 $.ajax({
-    url: "http://localhost:8000/api/produkt/gib/1",
-    method: "get",
-    dataType: "json"
-  }).done(function(response) {
-    var tmp ='<div class="product-grid2">
-      <div class="product-image2">
-        <a href="ALCLEARWaschhandschuh.html">
-          <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg">
-          <img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg">
-        </a>
-        <a class="add-to-cart" href="ALCLEARWaschhandschuh.html">' + response.daten.beschreibungklein + '</a>
-      </div>
-      <div class="product-content">
-        <h3 class="title"><a href="ALCLEARWaschhandschuh.html">' + response.daten.name + '</br>' + response.daten.bruttopreis + '</br>inkl. MwSt.</a></h3>
-        <input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />
-        <button id="addProduct1" onclick="Input1()">In den Warenkorb</button>
-      </div>
-    </div>'
+  url: "http://localhost:8000/api/produkt/gib/1",
+  method: "get",
+  dataType: "json"
+}).done(function(response) {
+  var tmp = '';
+  tmp +='<div class="product-grid2"><div class ="product-image2"><a href = "EimerGritGuard.html"><img class ="pic-1" src ="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg"><img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg"></a><a class="add-to-cart" href="EimerGritGuard.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a></div><div class="product-content"><h3 class="title"><a href="ALCLEARWaschhandschuh.html">';
+  tmp += response.daten.name;
+  tmp += '</br>';
+  tmp += response.daten.bruttopreis;
+  tmp += ' €</br>inkl. MwSt.</a></h3><input id="userInput" step="1" data-step-max="10" type="number" value ="0" data-decimals="0" min="0" max="360" class="col-4"/><button id="addProduct1" onclick="Input1()"> In den Warenkorb </button> </div> </div>';
 
-    $('#Verkauf1_ALCLEARWaschhandschuh').html(tmp);
+  //console.log(tmp);
 
-  }).fail(function(jqXHR, statusText, error) {
-    console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-    $("#output").html("Ein Fehler ist aufgetreten");
-  });
+  $('#Verkauf1_EimerGritGuard').html(tmp);
+
+}).fail(function(jqXHR, statusText, error) {
+  console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+  $("#output").html("Ein Fehler ist aufgetreten");
+});
 //##########################################################################################
     $.ajax({
       url: "http://localhost:8000/api/produkt/gib/12",
