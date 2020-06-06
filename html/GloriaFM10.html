@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="Stylesheet.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gloria FM10</title>
+  <title>GloriaFM10</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="../css/bootstrap.css">
   <link rel="stylesheet" href="../css/Stylesheet.css">
@@ -17,69 +17,48 @@
 
 <body>
   <div class="pointer">
-    <div class="logo" onclick="window.location.href='start.html'">
-      <img src="../img/DeluxeCar.png" />
+    <div id="Verkauf1_Logo" class="logo" onclick="window.location.href='start.html'">
     </div>
   </div>
   <nav>
     <ul>
       <li><a class="navi" href="start.html">Startseite</a></li>
-      <li><a class="navi" href="Verkauf1.html">Handwäsche</a></li>
-      <li><a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a></li>
-      <li><a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a></li>
+      <li><a id="Verkauf1_Handwäsche" class="navi" href="Verkauf1.html">
+        </a></li>
+      <li id="Verkauf1_Polituren_und_Poliermaschinen">
+      </li>
+      <li id="Verkauf1_Versiegelungen_und_Wachse">
+      </li>
       <li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
     </ul>
   </nav>
-  
   <div class="currentposition">
-  <h7> Gloria FM10 </h7>
+    <h7 id="GloriaFM10_Name">
+    </h7>
   </div>
-<div class="container wasdienedgeschafthaben">
+  <div class="container wasdienedgeschafthaben">
     <div class="row">
-  <table>
-
-
-    <tr>
-      <td>
-        <div class="product-grid2">
-          <div class="product-image2">
-          <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/41T7WahKIsL._AC_.jpg">
-          <img class="pic-2" src="../img/Spruehkoepfe.jpg">
+      <table>
+        <tr>
+          <td>
+            <div class="product-grid2">
+              <div id="GloriaFM10_Pictures" class="product-image2">
+              </div>
+            </div>
+          </td>
+          <td id="GloriaFM10_Details" class="großeschrift">
+          </td>
+          <td class="großeschrift">Stückzahl: <br><input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-3" /> <br><br><button id="addProduct" onclick="Input1()">In den
+              </br>Warenkorb</button></td>
+        </tr>
+      </table>
+      <div class="container wasdienedgeschafthaben">
+        <h8><b>Artikelbeschreibung:</b></h8><br><br>
+        <div id="GloriaFM10_beschreibunggross">
         </div>
-        </div>
-        </td>
-      <td class="großeschrift">Preis: 29,99 € inkl. MwSt. <br>
-          Status: Auf Lager<br>
-          Versandkostenfrei<br>
-          Lieferzeit: 1-3 Werktage</td>
-      <td class="großeschrift">Stückzahl: <br><input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-3" /> <br><br><button id="addProduct" onclick="Input1()">In den </br>Warenkorb</button></td>
-  
-    </tr>
-  </table>
-  
-  
-  <div class="container wasdienedgeschafthaben">           
-	<h8><b>Artikelbeschreibung:</b></h8><br><br>
-	
+      </div>
 
-Gloria FoamMaster FM10 eignet sich optimal für die schonende und berührungsfreie Autowäsche an ihrem Fahrzeug.
-
-Der dicke, haftende Schaum des Gloria FoamMaster FM10 weicht diverse Verschmutzungen auf und bereitet diese für das Abspülen vor - berührungslose Autowäsche auch ohne Schaumkanone.
-
-Das innovative Schaum-Container-System des Gloria FoamMaster FM10 hilft bei der schnellen Anpassung des Schaumstärke durch die mitgelieferten Container - unkomplizierte Autopflege für alle Touchless Car Care Enthusiasten.
-
-
-    <br>Gloria FoamMaster FM10 ist ein handlicher Schaumsprüher mit sehr guter Schaumbildung für vielseitige Autopflege.
-    <br>Die solide und ergonomische Ausführung des Gloria FoamMaster FM10 sorgen für hohe Lebensdauer und ihre Freude an dem Gerät
-    <br>Ölfeste Ausführung des Gloria FoamMaster FM10 durch Viton-Dichtungen.
-    <br>Gloria FoamMaster FM10 hat ein Behältervolumen von 1.25 Liter und eine gut ablesbare Füllskala.
-    <br>3 Bar und leistungsstarke Pumpe für effektives Arbeiten ohne häufiges Nachpumpen bei Ihrer Autowäsche.
-    <br>Gloria FoamMaster FM10 besitzt eine Überdruckautomatik, vermeidet ungewollte Beschädigungen bei dem Autopflege Einsatz.
-
-
-  </div> 
- 
-  </div>
+    </div>
   </div>
   <!-- footer -->
   <div class="footer-basic">
@@ -90,3 +69,99 @@ Das innovative Schaum-Container-System des Gloria FoamMaster FM10 hilft bei der 
 </body>
 
 </html>
+
+
+<!--------------------------------------------------------------------------------------------------------------------->
+
+<script>
+  $(document).ready(function() {
+
+    //AJAX for the logo
+    //-------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produkt/gib/19",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<img src="' + response.daten.bilder[0].bildpfad + '">';
+      $('#Verkauf1_Logo').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //AJAX for the NAVBAR
+    //---------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/1",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = response.daten.bezeichnung;
+      $('#Verkauf1_Handwäsche').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //##########################################################################################
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/2",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<a class="navi" href="Verkauf2.html">' + response.daten.bezeichnung + '</a>';
+      $('#Verkauf1_Polituren_und_Poliermaschinen').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //##########################################################################################
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/3",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<a class="navi" href="Verkauf3.html">' + response.daten.bezeichnung + '</a>';
+      $('#Verkauf1_Versiegelungen_und_Wachse').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+
+    //AJAX for the Productinformation
+    //----------------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produkt/gib/11",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var name = response.daten.name;
+      var pics = '<img class="pic-1" src="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[1].bildpfad + '">';
+
+      var aufLager = response.daten.auflager;
+      if (aufLager) {
+        aufLager = "Auf Lager";
+      } else {
+        aufLager = "Nicht auf Lager"
+      }
+      var details = 'Preis: ' + response.daten.bruttopreis.toString().replace(".", ",") + ' € inkl. MwSt.<br>Status: ' + aufLager + '<br>Versandkostenfrei<br>Lieferzeit: 1-3 Werktage';
+
+      var beschreibung = response.daten.beschreibunggross;
+
+      $('#GloriaFM10_Name').html(name);
+      $('#GloriaFM10_Pictures').html(pics);
+      $('#GloriaFM10_Details').html(details);
+      $('#GloriaFM10_beschreibunggross').html(beschreibung);
+
+
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+
+  });
+</script>

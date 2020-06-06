@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="Stylesheet.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Petzolds Lackknete</title>
+  <title>PetzoldsLackknete</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="../css/bootstrap.css">
   <link rel="stylesheet" href="../css/Stylesheet.css">
@@ -17,55 +17,48 @@
 
 <body>
   <div class="pointer">
-    <div class="logo" onclick="window.location.href='start.html'">
-      <img src="../img/DeluxeCar.png" />
+    <div id="Verkauf1_Logo" class="logo" onclick="window.location.href='start.html'">
     </div>
   </div>
   <nav>
     <ul>
       <li><a class="navi" href="start.html">Startseite</a></li>
-      <li><a class="navi" href="Verkauf1.html">Handwäsche</a></li>
-      <li><a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a></li>
-      <li><a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a></li>
+      <li><a id="Verkauf1_Handwäsche" class="navi" href="Verkauf1.html">
+        </a></li>
+      <li id="Verkauf1_Polituren_und_Poliermaschinen">
+      </li>
+      <li id="Verkauf1_Versiegelungen_und_Wachse">
+      </li>
       <li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
     </ul>
   </nav>
-  
   <div class="currentposition">
-  <h7> Petzolds Lackknete </h7>
+    <h7 id="PetzoldsLackknete_Name">
+    </h7>
   </div>
-<div class="container wasdienedgeschafthaben">
+  <div class="container wasdienedgeschafthaben">
     <div class="row">
-  <table>
-
-
-    <tr>
-      <td>
-        <div class="product-grid2">
-          <div class="product-image2">
-          <img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/81iewTV55oL._AC_SY355_.jpg">
-          <img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81iewTV55oL._AC_SY355_.jpg">
+      <table>
+        <tr>
+          <td>
+            <div class="product-grid2">
+              <div id="PetzoldsLackknete_Pictures" class="product-image2">
+              </div>
+            </div>
+          </td>
+          <td id="PetzoldsLackknete_Details" class="großeschrift">
+          </td>
+          <td class="großeschrift">Stückzahl: <br><input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-3" /> <br><br><button id="addProduct" onclick="Input1()">In den
+              </br>Warenkorb</button></td>
+        </tr>
+      </table>
+      <div class="container wasdienedgeschafthaben">
+        <h8><b>Artikelbeschreibung:</b></h8><br><br>
+        <div id="PetzoldsLackknete_beschreibunggross">
         </div>
-        </div>
-        </td>
-      <td class="großeschrift">Preis: 16,90 € inkl. MwSt. <br>
-          Status: Auf Lager<br>
-          Versandkostenfrei<br>
-          Lieferzeit: 1-3 Werktage</td>
-      <td class="großeschrift">Stückzahl: <br><input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-3" /> <br><br><button id="addProduct" onclick="Input1()">In den </br>Warenkorb</button></td>
-  
-    </tr>
-  </table>
-  
-  
-  <div class="container wasdienedgeschafthaben">           
-	<h8><b>Artikelbeschreibung:</b></h8><br><br>
-	 Entfernen Sie sicher und schonend Lack- oder Farbnebel, Eisenbahn- und Industrieablagerungen, Bremsstaub, Flugrost, Insektenreste, angetrocknete Teerspritzer und Baumharze, Ablagerungen vom sauren Regen, Eisenstaubpartikel (auch auf Windschutzscheiben – deshalb idealerweise vor einem Wischerwechsel anwenden).
-Durch diese innovative Reinigungstechnik werden Spuren und Hologramme beim Polieren und Pflegen von Lackoberflächen vermieden. Denn z. B. feine Metall- und Bremsabriebpartikel verursachen durchs Werkzeug gelöst, feine Spuren und Haarlinienkratzer auf dem Lackoberflächen.
-Nach der Anwendung der Reinigungsknete können Sie den Lack polieren und/oder z. B. mit Wachs, Lackversiegelung, Coating oder Lackschutzfolie schützen. Die Reinigungsknete darf nicht auf matten Oberflächen (Mattlack, Mattfolie, etc. pp.) verwendet werden (Stichwort: Glanzbildung) 
-  </div> 
- 
-  </div>
+      </div>
+
+    </div>
   </div>
   <!-- footer -->
   <div class="footer-basic">
@@ -76,3 +69,99 @@ Nach der Anwendung der Reinigungsknete können Sie den Lack polieren und/oder z.
 </body>
 
 </html>
+
+
+<!--------------------------------------------------------------------------------------------------------------------->
+
+<script>
+  $(document).ready(function() {
+
+    //AJAX for the logo
+    //-------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produkt/gib/19",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<img src="' + response.daten.bilder[0].bildpfad + '">';
+      $('#Verkauf1_Logo').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //AJAX for the NAVBAR
+    //---------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/1",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = response.daten.bezeichnung;
+      $('#Verkauf1_Handwäsche').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //##########################################################################################
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/2",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<a class="navi" href="Verkauf2.html">' + response.daten.bezeichnung + '</a>';
+      $('#Verkauf1_Polituren_und_Poliermaschinen').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+    //##########################################################################################
+    $.ajax({
+      url: "http://localhost:8000/api/produktkategorie/gib/3",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var tmp = '<a class="navi" href="Verkauf3.html">' + response.daten.bezeichnung + '</a>';
+      $('#Verkauf1_Versiegelungen_und_Wachse').html(tmp);
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+
+    //AJAX for the Productinformation
+    //----------------------------------------------------------------------------------------------------------------------------------
+    $.ajax({
+      url: "http://localhost:8000/api/produkt/gib/8",
+      method: "get",
+      dataType: "json"
+    }).done(function(response) {
+      var name = response.daten.name;
+      var pics = '<img class="pic-1" src="' + response.daten.bilder[0].bildpfad + '"><img class="pic-2" src="' + response.daten.bilder[0].bildpfad + '">';
+
+      var aufLager = response.daten.auflager;
+      if (aufLager) {
+        aufLager = "Auf Lager";
+      } else {
+        aufLager = "Nicht auf Lager"
+      }
+      var details = 'Preis: ' + response.daten.bruttopreis.toString().replace(".", ",") + ' € inkl. MwSt.<br>Status: ' + aufLager + '<br>Versandkostenfrei<br>Lieferzeit: 1-3 Werktage';
+
+      var beschreibung = response.daten.beschreibunggross;
+
+      $('#PetzoldsLackknete_Name').html(name);
+      $('#PetzoldsLackknete_Pictures').html(pics);
+      $('#PetzoldsLackknete_Details').html(details);
+      $('#PetzoldsLackknete_beschreibunggross').html(beschreibung);
+
+
+
+    }).fail(function(jqXHR, statusText, error) {
+      console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+      $("#output").html("Ein Fehler ist aufgetreten");
+    });
+
+  });
+</script>
