@@ -50,6 +50,49 @@ try {
         response.sendFile(path.join(__dirname, "../html", "Warenkorb.html"));
     });
 
+    app.get("/Impressum.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "Impressum.html"));
+    });
+
+    app.get("/Kontakt.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "Kontakt.html"));
+    });
+
+    app.get("/order_confirm_Rech.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "order_confirm_Rech.html"));
+    });
+
+    app.get("/order_confirm_uber.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "order_confirm_uber.html"));
+    });
+
+    app.get("/ALCLEARWaschhandschuh.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "ALCLEARWaschhandschuh.html"));
+    });
+
+    app.get("/EimerGritGuard.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "EimerGritGuard.html"));
+    });
+
+    app.get("/GloriaFM10.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "GloriaFM10.html"));
+    });
+
+    app.get("/GLORIATopFoam.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "GLORIATopFoam.html"));
+    });
+
+    app.get("/SONAXAutoShampoo.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "SONAXAutoShampoo.html"));
+    });
+
+    app.get("/PetzoldsLackknete.html", (request, response) => {
+        response.sendFile(path.join(__dirname, "../html", "PetzoldsLackknete.html"));
+    });
+
+
+
+
 } catch (ex) {
     helper.logError(ex);
 }
