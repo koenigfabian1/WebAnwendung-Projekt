@@ -1,4 +1,4 @@
-onst helper = require("../helper.js");
+const helper = require("../helper.js");
 
 class ProduktbildDao {
 

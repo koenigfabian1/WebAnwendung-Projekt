@@ -20,27 +20,16 @@
 <body>
   <div class="pointer">
     <div id="Verkauf1_Logo" class="logo" onclick="window.location.href='start.html'">
-      <!--<img src="../img/DeluxeCar.png" /> -->
+      <img src="../img/DeluxeCar.png" />
     </div>
   </div>
-  <nav>
-    <ul>
-      <li><a class="navi" href="start.html">Startseite</a></li>
-      <li><a id="Verkauf1_Handwäsche" class="navi" href="Verkauf1.html">
-          <!--Handwäsche--></a></li>
-      <li id="Verkauf1_Polituren_und_Poliermaschinen">
-        <!--<a class="navi" href="Verkauf2.html">Polituren und Poliermaschinen</a>-->
-      </li>
-      <li id="Verkauf1_Versiegelungen_und_Wachse">
-        <!--<a class="navi" href="Verkauf3.html">Versiegelungen und Wachse</a>-->
-      </li>
-      <li><a class="navi" href="Warenkorb.html">Warenkorb</a></li>
-    </ul>
+  <nav id="Kategorieliste">
+    <!--navbar -->
   </nav>
 
   <div class="currentposition">
     <h7 id="Verkauf1_Handwäsche">
-      <!--Handwäsche-->
+      Handwäsche
     </h7>
   </div>
 
@@ -48,70 +37,98 @@
     <div class="container wasdienedgeschafthaben">
       <div class="row" id="produktliste">
         <!-- produktdaten -->
+      </div>
     </div>
-</div>
-</div>
-<hr>
-<!-- footer -->
+  </div>
+  <hr>
+  <!-- footer -->
 
 
-<div class="footer-basic">
-<footer>
-  <p>Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2 <br> <a href="Impressum.html">Impressum</a> | <a href="Kontakt.html">Kontakt</a> </p>
-</footer>
-</div>
+  <div class="footer-basic">
+    <footer>
+      <p>Marcus, Fabian, Leon, Caspar © 2020 Webanwendung2 <br> <a href="Impressum.html">Impressum</a> | <a href="Kontakt.html">Kontakt</a> </p>
+    </footer>
+  </div>
 
 
-<script>
-
+  <script>
     $(document).ready(function() {
 
-        $.ajax({
-            url: "http://localhost:8000/api/produkt/vonKategorie/" + $.urlParam('kategorie'),
-            method: "get",
-            dataType: "json"
-        }).done(function(response) {
-            console.log(response);
+      //AJAX for the navbar----------------------------------------------------------------------------------------------------------------
+      $.ajax({
+        url: "http://localhost:8000/api/produktkategorie/alle",
+        method: "get",
+        dataType: "json"
+      }).done(function(response) {
+        //console.log(response.daten[0].name);
 
-            var tmp = '';
-        
-            for (i = 0; i < response.daten.length; i++) {
+        var tmp = '';
+        tmp += '<ul>';
+        tmp += '<li><a class="navi" href="start.html">Startseite</a></li>';
 
-                // TODO inhalt dynamisieren
+        for (i = 0; i < response.daten.length; i++) {
+          tmp += '<li><a class="navi" href="produktliste.html?kategorie=' + response.daten[i].id + '">' + response.daten[i].bezeichnung + '</a>';
+          tmp += '</li>';
+        }
 
-                tmp += '<div id="Verkauf1_ALCLEARWaschhandschuh" class="col-md-3 col-sm-6">';
-                tmp += '<div class="product-grid2">';
-                tmp += '<div class="product-image2">';
-                tmp += '<a href="ALCLEARWaschhandschuh.html">';
-                tmp += '<img class="pic-1" src="https://images-na.ssl-images-amazon.com/images/I/716iMjDLDoL._AC_SY550_.jpg">';
-                tmp += '<img class="pic-2" src="https://images-na.ssl-images-amazon.com/images/I/81Xnmqr5wNL._AC_SX466_.jpg">';
-                tmp += '</a>';
-                tmp += '<a class="add-to-cart" href="ALCLEARWaschhandschuh.html">Mikrofaser Waschhandschuh, mit dem man das Auto kratzerfrei reinigen kann</a>';
-                tmp += '</div>';
-                tmp += '<div class="product-content">';
-                tmp += '<h3 class="title"><a href="ALCLEARWaschhandschuh.html">ALCLEAR Waschhandschuh</br>12,99 €</br>inkl. MwSt.</a></h3>';
-                tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />';
-                tmp += '<button id="addProduct1" onclick="Input1()">In den Warenkorb</button>';
-                tmp += '</div>';
-                tmp += '</div>';
-                tmp += '</div>';
-
-            } // end for
-
-            // produktdetails.html?produkt=234
-
-            $('#produktliste').html(tmp);
-        }).fail(function(jqXHR, statusText, error) {
-            console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-            alert("Ein Fehler ist aufgetreten");
-        });
+        tmp += '<li><a class="navi" href="Warenkorb.html">Warenkorb</a></li></ul>';
 
 
-        
+        $('#Kategorieliste').html(tmp);
+      }).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        alert("Ein Fehler ist aufgetreten");
+      });
+
+
+      //AJAX for products-------------------------------------------------------------------------------------------------------------------
+      $.ajax({
+        url: "http://localhost:8000/api/produkt/vonKategorie/" + $.urlParam('kategorie'),
+        method: "get",
+        dataType: "json"
+      }).done(function(response) {
+        console.log(response.daten[0].bruttopreis);
+
+        var tmp = '';
+
+        for (i = 0; i < response.daten.length; i++) {
+          tmp += '<div class="col-md-3 col-sm-6">';
+          tmp += '<div class="product-grid2">';
+          tmp += '<div class="product-image2">';
+          tmp += '<a href="' + response.daten[i].name + '.html">';
+          tmp += '<img class="pic-1" src ="' + response.daten[i].bilder[0].bildpfad + '">';
+          if (response.daten[i].bilder.length == 1) { //Some pics use only 1 picture! --> Check it!
+            tmp += '<img class="pic-2" src ="' + response.daten[i].bilder[0].bildpfad + '">';
+          } else {
+            tmp += '<img class="pic-2" src ="' + response.daten[i].bilder[1].bildpfad + '">';
+          }
+          tmp += '</a>';
+          tmp += '<a class="add-to-cart" href="' + response.daten[i].name + '.html">' + response.daten[i].beschreibungklein + '</a>';
+          tmp += '</div>';
+          tmp += '<div class="product-content">';
+          tmp += '<h3 class="title"><a href="' + response.daten[i].name + '.html">' + response.daten[i].name + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") + ' €</br>inkl. MwSt.</a></h3>';
+          tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />';
+          tmp += '<button id="addProduct1" onclick="Input1()">In den Warenkorb</button>';
+          tmp += '</div>';
+          tmp += '</div>';
+          tmp += '</div>';
+
+        } // end for
+
+        // produktdetails.html?produkt=234
+
+        $('#produktliste').html(tmp);
+      }).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        alert("Ein Fehler ist aufgetreten");
+      });
+
+
+
     });
-
-</script>
+  </script>
 
 
 </body>
+
 </html>

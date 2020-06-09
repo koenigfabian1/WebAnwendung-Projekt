@@ -33,12 +33,6 @@ class ProduktDao {
         delete result.kategorieid;
         result.mehrwertsteuer = mehrwertsteuerDao.loadById(result.mehrwertsteuerid);
         delete result.mehrwertsteuerid;
-        //if (helper.isNull(result.datenblattid)) {
-        //    result.datenblatt = null;
-        //} else {
-        //    result.datenblatt = downloadDao.loadById(result.datenblattid);
-        //}
-        //delete result.datenblattid;
         result.bilder = produktbildDao.loadByParent(result.id);
         for (i = 0; i < result.bilder.length; i++) {
             delete result.bilder[i].produktid;
