@@ -31,6 +31,20 @@ serviceRouter.get("/produkt/alle/", function(request, response) {
     }
 });
 
+serviceRouter.get("/produkt/vonKategorie/:kategorieid", function(request, response) {
+    helper.log("Service Produkt: Client requested all records for categoryid=" + request.params.kategorieid);
+
+    const produktDao = new ProduktDao(request.app.locals.dbConnection);
+    try {
+        var result = produktDao.loadAllByCategoryId(request.params.kategorieid);
+        helper.log("Service Produkt: Records loaded, count=" + result.length);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Produkt: Error loading all records. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 serviceRouter.get("/produkt/existiert/:id", function(request, response) {
     helper.log("Service Produkt: Client requested check, if record exists, id=" + request.params.id);
 

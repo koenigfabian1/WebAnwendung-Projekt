@@ -56,9 +56,7 @@ class ProduktDao {
         var categories = produktkategorieDao.loadAll();
         const mehrwertsteuerDao = new MehrwertsteuerDao(this._conn);
         var taxes = mehrwertsteuerDao.loadAll();
-        //const produktbildDao = new ProduktbildDao(this._conn);
-        //var pictures = produktbildDao.loadAll();
-        //const downloadDao = new DownloadDao(this._conn);
+        const produktbildDao = new ProduktbildDao(this._conn);
 
         var sql = "SELECT * FROM Produkt";
         var statement = this._conn.prepare(sql);
@@ -86,19 +84,50 @@ class ProduktDao {
             }
             delete result[i].mehrwertsteuerid;
 
-          //  if (helper.isNull(result[i].datenblattid)) {
-          //      result[i].datenblatt = null;
-          //  } else {
-          //      result[i].datenblatt = downloadDao.loadById(result[i].datenblattid);
-          //  }
-          //  delete result[i].datenblattid;
+            result[i].bilder = produktbildDao.loadByParent(result[i].id);
 
-            result[i].bilder = [];
-            for (var element of pictures) {
-                if (element.produkt.id == result[i].id) {
-                    result[i].bilder.push(element);
+            result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis / 100) * result[i].mehrwertsteuer.steuersatz);
+
+            result[i].bruttopreis = helper.round(result[i].nettopreis + result[i].mehrwertsteueranteil);
+        }
+
+        return result;
+    }
+
+    loadAllByCategoryId(catID) {
+        const produktkategorieDao = new ProduktkategorieDao(this._conn);
+        var categories = produktkategorieDao.loadAll();
+        const mehrwertsteuerDao = new MehrwertsteuerDao(this._conn);
+        var taxes = mehrwertsteuerDao.loadAll();
+        const produktbildDao = new ProduktbildDao(this._conn);
+
+        var sql = "SELECT * FROM Produkt WHERE KategorieID=?";
+        var statement = this._conn.prepare(sql);
+        var result = statement.all(catID);
+
+        if (helper.isArrayEmpty(result))
+            return [];
+
+        result = helper.arrayObjectKeysToLower(result);
+
+        for (var i = 0; i < result.length; i++) {
+            for (var element of categories) {
+                if (element.id == result[i].kategorieid) {
+                    result[i].kategorie = element;
+                    break;
                 }
             }
+            delete result[i].kategorieid;
+
+            for (var element of taxes) {
+                if (element.id == result[i].mehrwertsteuerid) {
+                    result[i].mehrwertsteuer = element;
+                    break;
+                }
+            }
+            delete result[i].mehrwertsteuerid;
+
+            result[i].bilder = produktbildDao.loadByParent(result[i].id);
 
             result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis / 100) * result[i].mehrwertsteuer.steuersatz);
 

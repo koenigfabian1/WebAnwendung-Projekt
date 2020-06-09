@@ -1,4 +1,4 @@
-const helper = require("../helper.js");
+onst helper = require("../helper.js");
 
 class ProduktbildDao {
 
@@ -11,7 +11,7 @@ class ProduktbildDao {
     }
 
     loadById(id) {
-        var sql = "SELECT * FROM Produktbild WHERE ID=?";
+        var sql = "SELECT * FROM Bild WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -27,7 +27,7 @@ class ProduktbildDao {
     }
 
     loadAll() {
-        var sql = "SELECT * FROM Produktbild";
+        var sql = "SELECT * FROM Bild";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
@@ -63,7 +63,7 @@ class ProduktbildDao {
     }
 
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Produktbild WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Bild WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -74,7 +74,7 @@ class ProduktbildDao {
     }
 
     create(bildpfad = "", produktid = 1) {
-        var sql = "INSERT INTO Produktbild (Bildpfad,ProduktID) VALUES (?,?)";
+        var sql = "INSERT INTO Bild (Bildpfad,ProduktID) VALUES (?,?)";
         var statement = this._conn.prepare(sql);
         var params = [bildpfad, produktid];
         var result = statement.run(params);
@@ -87,7 +87,7 @@ class ProduktbildDao {
     }
 
     update(id, bildpfad = "", produktid = 1) {
-        var sql = "UPDATE Produktbild SET Bildpfad=?,ProduktID=? WHERE ID=?";
+        var sql = "UPDATE Bild SET Bildpfad=?,ProduktID=? WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var params = [bildpfad, produktid, id];
         var result = statement.run(params);
@@ -101,7 +101,7 @@ class ProduktbildDao {
 
     delete(id) {
         try {
-            var sql = "DELETE FROM Produktbild WHERE ID=?";
+            var sql = "DELETE FROM Bild WHERE ID=?";
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
@@ -116,7 +116,7 @@ class ProduktbildDao {
 
     deleteByParent(id) {
         try {
-            var sql = "DELETE FROM Produktbild WHERE ProduktID=?";
+            var sql = "DELETE FROM Bild WHERE ProduktID=?";
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
