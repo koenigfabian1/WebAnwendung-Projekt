@@ -56,9 +56,6 @@ try {
 
     // bind services endpoints
     const TOPLEVELPATH = "/api";
-    var serviceRouter = require("./services/land.js");
-    app.use(TOPLEVELPATH, serviceRouter);
-
     serviceRouter = require("./services/adresse.js");
     app.use(TOPLEVELPATH, serviceRouter);
 

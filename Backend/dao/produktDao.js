@@ -1,7 +1,6 @@
 const helper = require("../helper.js");
 const ProduktkategorieDao = require("./produktkategorieDao.js");
 const MehrwertsteuerDao = require("./mehrwertsteuerDao.js");
-const DownloadDao = require("./downloadDao.js");
 const ProduktbildDao = require("./produktbildDao.js");
 
 class ProduktDao {
@@ -143,8 +142,6 @@ class ProduktDao {
     }
 
     create(kategorieid = 1, bezeichnung = "", beschreibung = "", mehrwertsteuerid = 1, details = null, nettopreis = 0.0, datenblattid = null, bilder = []) {
-        //const produktbildDao = new ProduktbildDao(this._conn);
-
         var sql = "INSERT INTO Produkt (KategorieID,Bezeichnung,Beschreibung,MehrwertsteuerID,Details,Nettopreis,DatenblattID) VALUES (?,?,?,?,?,?,?)";
         var statement = this._conn.prepare(sql);
         var params = [kategorieid, bezeichnung, beschreibung, mehrwertsteuerid, details, nettopreis, datenblattid];
@@ -153,19 +150,11 @@ class ProduktDao {
         if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
 
-        // (bilder.length > 0) {
-        //    for (var element of bilder) {
-      //          produktbildDao.create(element.bildpfad, result.lastInsertRowid);
-      //      }
-      //  }
-
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
 
     update(id, kategorieid = 1, bezeichnung = "", beschreibung = "", mehrwertsteuerid = 1, details = null, nettopreis = 0.0, datenblattid = null, bilder = []) {
-        //const produktbildDao = new ProduktbildDao(this._conn);
-        //produktbildDao.deleteByParent(id);
 
         var sql = "UPDATE Produkt SET KategorieID=?,Bezeichnung=?,Beschreibung=?,MehrwertsteuerID=?,Details=?,Nettopreis=?,DatenblattID=? WHERE ID=?";
         var statement = this._conn.prepare(sql);
@@ -175,21 +164,12 @@ class ProduktDao {
         if (result.changes != 1)
             throw new Error("Could not update existing Record. Data: " + params);
 
-      //  if (bilder.length > 0) {
-      //      for (var element of bilder) {
-      //          produktbildDao.create(element.bildpfad, id);
-      //      }
-      //  }
-
         var updatedObj = this.loadById(id);
         return updatedObj;
     }
 
     delete(id) {
         try {
-            //const produktbildDao = new ProduktbildDao(this._conn);
-            //produktbildDao.deleteByParent(id);
-
             var sql = "DELETE FROM Produkt WHERE ID=?";
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
