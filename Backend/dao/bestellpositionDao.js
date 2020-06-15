@@ -18,14 +18,14 @@ class BestellpositionDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         result = helper.objectKeysToLower(result);
 
         result.bestellung = { "id": result.bestellungid };
         delete result.bestellungid;
-        
+
         result.produkt = produktDao.loadById(result.produktid);
         delete result.produktid;
 
@@ -44,15 +44,15 @@ class BestellpositionDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         result = helper.arrayObjectKeysToLower(result);
 
         for (var i = 0; i < result.length; i++) {
             result[i].bestellung = { "id": result[i].bestellungid };
             delete result[i].bestellungid;
-        
+
             for (var element of products) {
                 if (element.id == result[i].produktid) {
                     result[i].produkt = element;
@@ -77,15 +77,15 @@ class BestellpositionDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all(bestellungid);
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         result = helper.arrayObjectKeysToLower(result);
 
         for (var i = 0; i < result.length; i++) {
             result[i].bestellung = { "id": result[i].bestellungid };
             delete result[i].bestellungid;
-        
+
             for (var element of products) {
                 if (element.id == result[i].produktid) {
                     result[i].produkt = element;
@@ -107,32 +107,32 @@ class BestellpositionDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (result.cnt == 1) 
+        if (result.cnt == 1)
             return true;
 
         return false;
     }
 
-    create(bestellungid = 1, produktid = 1, menge = 1) {
-        var sql = "INSERT INTO Bestellposition (BestellungID,ProduktID,Menge) VALUES (?,?,?)";
+    create(produktid = 1, menge = 1) {
+        var sql = "INSERT INTO Bestellposition (ProduktID,Menge) VALUES (?,?)";
         var statement = this._conn.prepare(sql);
         var params = [bestellungid, produktid, menge];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
 
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
 
-    update(id, bestellungid = 1, produktid = 1, menge = 1) {
-        var sql = "UPDATE Bestellposition SET BestellungID=?,ProduktID=?,Menge=? WHERE ID=?";
+    update(id, produktid = 1, menge = 1) {
+        var sql = "UPDATE Bestellposition SET ProduktID=?,Menge=? WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var params = [bestellungid, produktid, menge, id];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not update existing Record. Data: " + params);
 
         var updatedObj = this.loadById(id);
@@ -145,7 +145,7 @@ class BestellpositionDao {
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
-            if (result.changes != 1) 
+            if (result.changes != 1)
                 throw new Error("Could not delete Record by id=" + id);
 
             return true;
