@@ -1,6 +1,6 @@
-function Input1()
+function Input()
 {
-  window.input1=document.getElementById("userInput").value;
+  window.input=document.getElementById("userInput").value;
   document.getElementById("userInput").value="0";
   alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
 }

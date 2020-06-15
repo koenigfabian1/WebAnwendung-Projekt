@@ -81,6 +81,9 @@ try {
     serviceRouter = require("./services/bestellung.js");
     app.use(TOPLEVELPATH, serviceRouter);
 
+    serviceRouter = require("./services/bestellposition.js");
+    app.use(TOPLEVELPATH, serviceRouter);
+
     //Get HTML Sites
     app.use('/', express.static(__dirname + '/../../WebAnwendung-Projekt'));
 

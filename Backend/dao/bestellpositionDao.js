@@ -69,41 +69,8 @@ class BestellpositionDao {
         return result;
     }
 
-    loadByParent(bestellungid) {
-        const produktDao = new ProduktDao(this._conn);
-        var products = produktDao.loadAll();
-
-        var sql = "SELECT * FROM Bestellposition WHERE BestellungID=?";
-        var statement = this._conn.prepare(sql);
-        var result = statement.all(bestellungid);
-
-        if (helper.isArrayEmpty(result))
-            return [];
-
-        result = helper.arrayObjectKeysToLower(result);
-
-        for (var i = 0; i < result.length; i++) {
-            result[i].bestellung = { "id": result[i].bestellungid };
-            delete result[i].bestellungid;
-
-            for (var element of products) {
-                if (element.id == result[i].produktid) {
-                    result[i].produkt = element;
-                    break;
-                }
-            }
-            delete result[i].produktid;
-
-            result[i].mehrwertsteuersumme = helper.round(result[i].menge * result[i].produkt.mehrwertsteueranteil);
-            result[i].nettosumme = helper.round(result[i].menge * result[i].produkt.nettopreis);
-            result[i].bruttosumme = helper.round(result[i].menge * result[i].produkt.bruttopreis);
-        }
-
-        return result;
-    }
-
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Bestellposition WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Bestellposition WHERE ProduktID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -113,10 +80,10 @@ class BestellpositionDao {
         return false;
     }
 
-    create(produktid = 1, menge = 1) {
+    create(produktid, menge) {
         var sql = "INSERT INTO Bestellposition (ProduktID,Menge) VALUES (?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [bestellungid, produktid, menge];
+        var params = [produktid, menge];
         var result = statement.run(params);
 
         if (result.changes != 1)
@@ -151,18 +118,6 @@ class BestellpositionDao {
             return true;
         } catch (ex) {
             throw new Error("Could not delete Record by id=" + id + ". Reason: " + ex.message);
-        }
-    }
-
-    deleteByParent(bestellungid) {
-        try {
-            var sql = "DELETE FROM Bestellposition WHERE BestellungID=?";
-            var statement = this._conn.prepare(sql);
-            var result = statement.run(bestellungid);
-
-            return true;
-        } catch (ex) {
-            throw new Error("Could not delete Records by bestellungid=" + bestellungid + ". Reason: " + ex.message);
         }
     }
 

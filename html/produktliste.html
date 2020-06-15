@@ -65,14 +65,14 @@
           tmp += '<div class="product-content">';
           tmp += '<h3 class="title"><a href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].name + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") + ' €</br>inkl. MwSt.</a></h3>';
           tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />';
-          tmp += '<button id="addProduct1" onclick="Input1()">In den Warenkorb</button>';
+          tmp += '<button id="addProduct'+response.daten[i].id+'" onclick="Input()">In den Warenkorb</button>';
           tmp += '</div>';
           tmp += '</div>';
           tmp += '</div>';
 
         } // end for
 
-      
+
 
         $('#produktliste').html(tmp);
       }).fail(function(jqXHR, statusText, error) {
@@ -81,8 +81,32 @@
       });
 
 
+      //AJAX to post product into the bin---------------------------------------------------------------------------------------------------------------
 
-    });
+
+      $("#addProduct1").click(function(){
+        console.log("Product added");
+
+        var obj = { "produktid": 2, "Menge": 4 };
+
+        $.ajax({
+          url: "http://localhost:8000/api/bestellposition",
+          method: "post",
+          contentType: "application/json",
+          dataType: "json",
+          data: JSON.stringify(obj)
+        }).done(function(response) {
+          console.log(response);
+        }).fail(function(jqXHR, statusText, error) {
+          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+          alert("Ein Fehler ist aufgetreten");
+        });
+      });
+
+
+
+
+    }); //End document ready
   </script>
 
 
