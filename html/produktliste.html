@@ -52,7 +52,7 @@
           tmp += '<div class="col-md-3 col-sm-6">';
           tmp += '<div class="product-grid2">';
           tmp += '<div class="product-image2">';
-          tmp += '<a href="' + response.daten[i].name + '.html">';
+          tmp += '<a href="produktdetail.html?produkt=' + response.daten[i].id + '">';
           tmp += '<img class="pic-1" src ="' + response.daten[i].bilder[0].bildpfad + '">';
           if (response.daten[i].bilder.length == 1) { //Some pics use only 1 picture! --> Check it!
             tmp += '<img class="pic-2" src ="' + response.daten[i].bilder[0].bildpfad + '">';
@@ -60,10 +60,10 @@
             tmp += '<img class="pic-2" src ="' + response.daten[i].bilder[1].bildpfad + '">';
           }
           tmp += '</a>';
-          tmp += '<a class="add-to-cart" href="' + response.daten[i].name + '.html">' + response.daten[i].beschreibungklein + '</a>';
+          tmp += '<a class="add-to-cart" href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].beschreibungklein + '</a>';
           tmp += '</div>';
           tmp += '<div class="product-content">';
-          tmp += '<h3 class="title"><a href="' + response.daten[i].name + '.html">' + response.daten[i].name + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") + ' €</br>inkl. MwSt.</a></h3>';
+          tmp += '<h3 class="title"><a href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].name + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") + ' €</br>inkl. MwSt.</a></h3>';
           tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />';
           tmp += '<button id="addProduct1" onclick="Input1()">In den Warenkorb</button>';
           tmp += '</div>';
@@ -72,7 +72,7 @@
 
         } // end for
 
-        // produktdetails.html?produkt=234
+      
 
         $('#produktliste').html(tmp);
       }).fail(function(jqXHR, statusText, error) {
