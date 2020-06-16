@@ -37,34 +37,12 @@ class BestellpositionDao {
     }
 
     loadAll() {
-        const produktDao = new ProduktDao(this._conn);
-        var products = produktDao.loadAll();
-
         var sql = "SELECT * FROM Bestellposition";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
         if (helper.isArrayEmpty(result))
             return [];
-
-        result = helper.arrayObjectKeysToLower(result);
-
-        for (var i = 0; i < result.length; i++) {
-            result[i].bestellung = { "id": result[i].bestellungid };
-            delete result[i].bestellungid;
-
-            for (var element of products) {
-                if (element.id == result[i].produktid) {
-                    result[i].produkt = element;
-                    break;
-                }
-            }
-            delete result[i].produktid;
-
-            result[i].mehrwertsteuersumme = helper.round(result[i].menge * result[i].produkt.mehrwertsteueranteil);
-            result[i].nettosumme = helper.round(result[i].menge * result[i].produkt.nettopreis);
-            result[i].bruttosumme = helper.round(result[i].menge * result[i].produkt.bruttopreis);
-        }
 
         return result;
     }
@@ -93,8 +71,8 @@ class BestellpositionDao {
         return newObj;
     }
 
-    update(id, produktid = 1, menge = 1) {
-        var sql = "UPDATE Bestellposition SET ProduktID=?,Menge=? WHERE ID=?";
+    update(id, menge = 1) {
+        var sql = "UPDATE Bestellposition SET Menge=? WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var params = [bestellungid, produktid, menge, id];
         var result = statement.run(params);
@@ -108,7 +86,7 @@ class BestellpositionDao {
 
     delete(id) {
         try {
-            var sql = "DELETE FROM Bestellposition WHERE ID=?";
+            var sql = "DELETE FROM Bestellposition WHERE ProduktID=?";
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
