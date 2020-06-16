@@ -52,12 +52,28 @@ serviceRouter.delete("/bestellposition/:id", function(request, response) {
     helper.log("Service Bestellposition: Client requested deletion of record, id=" + request.params.id);
 
     const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
+
     try {
         bestellpositionDao.delete(request.params.id);
         helper.log("Service Produkt: Deletion of record successfull, id=" + request.params.id);
         response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
     } catch (ex) {
         helper.logError("Service Produkt: Error deleting record. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
+serviceRouter.put("/produkt", function(request, response) {
+    helper.log("Service Produkt: Client requested update of existing record");
+
+    const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
+
+    try {
+        var result = produktDao.update(request.body.id,);
+        helper.log("Service Produkt: Record updated, id=" + request.body.id);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Produkt: Error updating record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });

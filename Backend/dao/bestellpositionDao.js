@@ -11,10 +11,11 @@ class BestellpositionDao {
         return this._conn;
     }
 
-    loadById(id) {
+    loadByProduktId(id) {
         const produktDao = new ProduktDao(this._conn);
+        const mehrwertsteuerDao = new MehrwertsteuerDao(this._conn);
 
-        var sql = "SELECT * FROM Bestellposition WHERE ID=?";
+        var sql = "SELECT * FROM Bestellposition WHERE ProduktID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -37,12 +38,26 @@ class BestellpositionDao {
     }
 
     loadAll() {
+        const produktDao = new ProduktDao(this._conn);
+
         var sql = "SELECT * FROM Bestellposition";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
         if (helper.isArrayEmpty(result))
             return [];
+
+
+        result = helper.arrayObjectKeysToLower(result);
+
+        for (var i = 0; i < result.length; i++){
+
+          result[i].produkt = produktDao.loadById(result[i].produktid);
+          delete result[i].produktid;
+
+        }
+
+
 
         return result;
     }
@@ -71,10 +86,10 @@ class BestellpositionDao {
         return newObj;
     }
 
-    update(id, menge = 1) {
-        var sql = "UPDATE Bestellposition SET Menge=? WHERE ID=?";
+    update(menge,produktid) {
+        var sql = "UPDATE Bestellposition SET Menge=? WHERE ProduktID=?";
         var statement = this._conn.prepare(sql);
-        var params = [bestellungid, produktid, menge, id];
+        var params = [produktid, menge];
         var result = statement.run(params);
 
         if (result.changes != 1)
