@@ -61,8 +61,8 @@
         var gesamtMWST = 0;
         for (i = 0; i < response.daten.length; i++) {
           Gesamtkosten = Gesamtkosten + (response.daten[i].produkt.bruttopreis * response.daten[i].menge);
+          gesamtMWST = gesamtMWST + (response.daten[i].produkt.mehrwertsteueranteil * response.daten[i].menge);
         }
-        gesamtMWST = (Gesamtkosten * 19) / 100;
         tmp += '<tr></tr>';
         tmp += '<tr>';
         tmp += '<td></td>';
