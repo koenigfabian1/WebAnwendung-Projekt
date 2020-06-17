@@ -48,6 +48,20 @@ serviceRouter.get("/bestellposition/alle", function(request, response) {
     }
 });
 
+serviceRouter.get("/bestellposition/gib/:id", function(request, response) {
+    helper.log("Service Bestellposition: Client requested one record, id=" + request.params.id);
+
+    const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
+    try {
+        var result = bestellpositionDao.loadByProduktId(request.params.id);
+        helper.log("Service Bestellposition: Record loaded");
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Bestellposition: Error loading record by id. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 serviceRouter.delete("/bestellposition/:id", function(request, response) {
     helper.log("Service Bestellposition: Client requested deletion of record, id=" + request.params.id);
 
@@ -72,6 +86,19 @@ serviceRouter.put("/bestellposition", function(request, response) {
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
         helper.logError("Service Bestellposition: Error updating record by id. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
+serviceRouter.delete("/bestellposition/:id", function(request, response) {
+    helper.log("Service Produkt: Client requested deletion of record, id=" + request.params.id);
+
+    const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
+    try {
+        bestellpositionDao.delete(request.params.id);
+        helper.log("Service Produkt: Deletion of record successfull, id=" + request.params.id);
+    } catch (ex) {
+        helper.logError("Service Produkt: Error deleting record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });

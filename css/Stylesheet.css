@@ -1013,6 +1013,11 @@ th {
   border: 1px;
   background-color: red;
 }
+.button:hover /* Eigenschaften beim Überfahren mit der Maus */
+    {
+
+    cursor: pointer;
+    }
 
 .buttonchange {
   background-color: white;

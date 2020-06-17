@@ -63,9 +63,20 @@
           tmp += '<a class="add-to-cart" href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].beschreibungklein + '</a>';
           tmp += '</div>';
           tmp += '<div class="product-content">';
-          tmp += '<h3 class="title"><a href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].name + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") + ' €</br>inkl. MwSt.</a></h3>';
-          tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-4" />';
-          tmp += '<button id="addProduct'+response.daten[i].id+'" onclick="Input()">In den Warenkorb</button>';
+
+
+
+          if (response.daten[i].auflager) {
+            tmp += '<h3 class="title"><a href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].name + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") + ' €</br>inkl. MwSt.</a></h3>';
+            tmp += '<input id="userInput' + response.daten[i].id + '" step="1" data-step-max="10" type="number" value="1" data-decimals="0" min="1" max="360" class="col-4" />';
+            tmp += '<button onclick="Input(' + response.daten[i].id + ')">In den Warenkorb</button>';
+          } else {
+            tmp += '<h3 class="title"><a href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].name + "- Nicht auf Lager!" + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") +
+              ' €</br>inkl. MwSt.</a></h3>';
+            tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="1" data-decimals="0" min="1" max="360" class="col-4" />';
+            tmp += '<button onclick="NotAvail()">In den Warenkorb</button>';
+          }
+
           tmp += '</div>';
           tmp += '</div>';
           tmp += '</div>';
@@ -80,33 +91,93 @@
         alert("Ein Fehler ist aufgetreten");
       });
 
+    }); //End document ready
 
-      //AJAX to post product into the bin---------------------------------------------------------------------------------------------------------------
+
+    function Input(produktid) { //function to post product into the bin or update already existing product in the bin
+
+      var Input = document.getElementById('userInput' + produktid + '').value;
 
 
-      $("#addProduct1").click(function(){
-        console.log("Product added");
+      //AJAX to check and set variable if the product exists already in an order_position-------------------------------------------------------------------------------------------------------------------
+      $.ajax({
+        url: "http://localhost:8000/api/bestellposition/existiert/" + produktid,
+        method: "get",
+        dataType: "json"
+      }).done(function(response) {
+        var inBestellposition = response.daten;
 
-        var obj = { "produktid": 2, "Menge": 4 };
+        if (inBestellposition) { //If Product already in the bin....
+          var x = 0;
+          $.ajax({
+            url: "http://localhost:8000/api/bestellposition/gib/" + produktid,
+            method: "get",
+            dataType: "json"
+          }).done(function(response) {
 
-        $.ajax({
-          url: "http://localhost:8000/api/bestellposition",
-          method: "post",
-          contentType: "application/json",
-          dataType: "json",
-          data: JSON.stringify(obj)
-        }).done(function(response) {
-          console.log(response);
-        }).fail(function(jqXHR, statusText, error) {
-          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-          alert("Ein Fehler ist aufgetreten");
-        });
+            sum = parseInt(Input, 10) + parseInt(response.daten.Menge, 10);
+
+            var obj = {
+              "menge": sum,
+              "produktid": produktid
+            };
+
+            $.ajax({ //...Use PUT to modify the already existing product
+              url: "http://localhost:8000/api/bestellposition",
+              method: "put",
+              contentType: "application/json",
+              data: JSON.stringify(obj)
+            }).done(function(response) {
+
+            }).fail(function(jqXHR, statusText, error) {
+              console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+              $("#output").html("Ein Fehler ist aufgetreten");
+            });
+
+            alert("Der Warenkorb wurde erfolgreich abgeändert!");
+            window.location.reload(true);
+
+
+
+
+          }).fail(function(jqXHR, statusText, error) {
+            console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+            alert("Ein Fehler ist aufgetreten");
+          });
+
+
+        } else { //product not yet in the bin
+
+          var obj = {
+            "produktid": produktid,
+            "menge": Input
+          };
+
+          $.ajax({ //use POST to create a new order_position
+            url: "http://localhost:8000/api/bestellposition",
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify(obj)
+          }).done(function(response) {
+
+          }).fail(function(jqXHR, statusText, error) {
+            console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+            $("#output").html("Ein Fehler ist aufgetreten");
+          });
+
+          alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
+          window.location.reload(true);
+
+        } //End if
+
+
+      }).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        alert("Ein Fehler ist aufgetreten");
       });
 
 
-
-
-    }); //End document ready
+    } //Endfunction
   </script>
 
 

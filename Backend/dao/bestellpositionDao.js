@@ -12,27 +12,12 @@ class BestellpositionDao {
     }
 
     loadByProduktId(id) {
-        const produktDao = new ProduktDao(this._conn);
-        const mehrwertsteuerDao = new MehrwertsteuerDao(this._conn);
-
         var sql = "SELECT * FROM Bestellposition WHERE ProduktID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
         if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
-
-        result = helper.objectKeysToLower(result);
-
-        result.bestellung = { "id": result.bestellungid };
-        delete result.bestellungid;
-
-        result.produkt = produktDao.loadById(result.produktid);
-        delete result.produktid;
-
-        result.mehrwertsteuersumme = helper.round(result.menge * result.produkt.mehrwertsteueranteil);
-        result.nettosumme = helper.round(result.menge * result.produkt.nettopreis);
-        result.bruttosumme = helper.round(result.menge * result.produkt.bruttopreis);
 
         return result;
     }
