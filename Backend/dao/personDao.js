@@ -28,8 +28,6 @@ class PersonDao {
         else
             result.anrede = "Frau";
 
-        result.geburtstag = helper.formatToGermanDate(helper.parseSQLDateTimeString(result.geburtstag));
-
         result.adresse = adresseDao.loadById(result.adresseid);
         delete result.adresseid;
 
@@ -80,10 +78,10 @@ class PersonDao {
         return false;
     }
 
-    create(anrede = "Herr", vorname = "", nachname = "", adresseid = 1) {
+    create(anrede,vorname,nachname,adresseid) {
         var sql = "INSERT INTO Person (Anrede,Vorname,Nachname,AdresseID) VALUES (?,?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [(helper.strStartsWith(anrede, "He") ? 0 : 1), vorname, nachname, adresseid, telefonnummer, email, (helper.isNull(geburtstag) ? null : helper.formatToSQLDate(geburtstag))];
+        var params = [anrede, vorname, nachname, adresseid];
         var result = statement.run(params);
 
         if (result.changes != 1)

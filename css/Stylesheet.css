@@ -460,7 +460,15 @@ nav a:hover {
 .trigger2 p {
   text-align: left;
 }
+/* Show green borders when valid */
+Vorname[data-state="valid"] {
+  border-color: hsl(120, 76%, 50%);
+}
 
+/* Show red borders when filled, but invalid */
+Vorname[data-state="invalid"] {
+  border-color: hsl(0, 76%, 50%);;
+}
 .iimg {
   display: block;
   height: 550px;
