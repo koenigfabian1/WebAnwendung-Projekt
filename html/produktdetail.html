@@ -104,7 +104,7 @@
         }
         var details = 'Preis: ' + response.daten.bruttopreis.toString().replace(".", ",") + ' € inkl. MwSt.<br>Status: ' + Lager + '<br>Versandkostenfrei<br>Lieferzeit: 1-3 Werktage';
 
-        var input_button = '';
+        var input_button = ''; //2 different buttons, depending on the product is available or not --> Execute different functions on click!
         if (aufLager) {
           input_button = 'Stückzahl:<br><input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="0" min="0" max="360" class="col-3" /><br>';
           input_button += '<br><button id="addProduct" onclick="Input()">In den</br>Warenkorb</button>';
@@ -129,20 +129,20 @@
 
     }); //document ready end
 
-    function Input() {
+    function Input() { //function to post product into the bin or update already existing product in the bin
 
       var Input = document.getElementById("userInput").value;
 
       console.log(inBestellposition);
 
-      if (inBestellposition) {
+      if (inBestellposition) { //If Product already in the bin....
 
         var obj = {
           "menge": Input,
           "produktid": urlParam
         };
 
-        $.ajax({
+        $.ajax({ //...Use PUT to modify the already existing product
           url: "http://localhost:8000/api/bestellposition",
           method: "put",
           contentType: "application/json",
@@ -158,14 +158,14 @@
         window.location.reload(true);
 
 
-      } else {
+      } else { //product not yet in the bin
 
         var obj = {
           "produktid": urlParam,
           "menge": Input
         };
 
-        $.ajax({
+        $.ajax({ //use POST to create a new order_position
           url: "http://localhost:8000/api/bestellposition",
           method: "post",
           contentType: "application/json",

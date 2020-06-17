@@ -29,7 +29,7 @@
   <script>
     $(document).ready(function() {
       //AJAX for products-------------------------------------------------------------------------------------------------------------------
-      $.ajax({
+      $.ajax({ //Load all
         url: "http://localhost:8000/api/bestellposition/alle",
         method: "get",
         dataType: "json"
@@ -46,7 +46,8 @@
         for (i = 0; i < response.daten.length; i++) {
           tmp += '<tr>';
           tmp += '<td><a href="produktdetail.html?produkt=' + response.daten[i].produkt.id + '" style="color: black;">' + response.daten[i].produkt.name + '</a></td>';
-          tmp += '<td><input step="1" data-step-max="10" type="number" value="' + response.daten[i].menge + '" data-decimals="0" min="0" max="360" class="col-3" /></td>'
+          tmp += '<td><input id="Input' + response.daten[i].produkt.id + '" step="1" data-step-max="10" type="number" value="' + response.daten[i].menge +
+            '" data-decimals="0" min="0" max="360" class="col-3" /><button class="buttonchange" onclick="Change(' + response.daten[i].produkt.id + ')">Menge ändern</button></td>';
           tmp += '<td>' + response.daten[i].produkt.bruttopreis.toString().replace(".", ",") + ' €</td>';
           tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + ' €</td>';
           tmp += '<td><button class="button">X</button></td>';
@@ -99,6 +100,38 @@
 
 
     }); //End document ready
+
+    function Change(id) { //function to post product into the bin or update already existing product in the bin
+      var Input = 'Input' + id + '';
+      var Change = document.getElementById(Input).value;
+      console.log("Hallo");
+
+
+      var obj = {
+        "menge": Change,
+        "produktid": id
+      };
+
+      $.ajax({ //...Use PUT to modify the already existing product
+        url: "http://localhost:8000/api/bestellposition",
+        method: "put",
+        contentType: "application/json",
+        data: JSON.stringify(obj)
+      }).done(function(response) {
+
+      }).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        $("#output").html("Ein Fehler ist aufgetreten");
+      });
+
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 500);
+
+
+
+
+    }
   </script>
 
 

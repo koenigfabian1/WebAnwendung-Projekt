@@ -1010,9 +1010,22 @@ th {
 }
 
 .button {
-  border: 0px;
+  border: 1px;
   background-color: red;
 }
+
+.buttonchange {
+  background-color: white;
+  border: 1px;
+
+}
+
+.buttonchange:hover /* Eigenschaften beim Überfahren mit der Maus */
+    {
+
+    cursor: pointer;
+    background-color: lightgrey; /* Neue Farbe */
+    }
 
 .button1 {
   background-color: lightgrey;
