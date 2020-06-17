@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="Stylesheet.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Soft99 Fusso Coat Detailer</title>
+  <title>Detailseite</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="../css/bootstrap.css">
   <link rel="stylesheet" href="../css/Stylesheet.css">
@@ -63,7 +63,6 @@
     $(document).ready(function() {
       var aufLager = '';
       var input_button = '';
-
       //AJAX to check and set variable if the product exists already in an order_position-------------------------------------------------------------------------------------------------------------------
       $.ajax({
         url: "http://localhost:8000/api/bestellposition/existiert/" + urlParam,
@@ -133,7 +132,6 @@
 
       var Input = document.getElementById("userInput").value;
 
-
       if (inBestellposition) { //If Product already in the bin....
         var x = 0;
         $.ajax({
@@ -160,18 +158,13 @@
             console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
             $("#output").html("Ein Fehler ist aufgetreten");
           });
-
           alert("Der Warenkorb wurde erfolgreich abgeändert!");
           window.location.reload(true);
-
-
-
 
         }).fail(function(jqXHR, statusText, error) {
           console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
           alert("Ein Fehler ist aufgetreten");
         });
-
 
       } else { //product not yet in the bin
 
@@ -196,10 +189,8 @@
         window.location.reload(true);
 
       }
-
     }
   </script>
-
 </body>
 
 </html>

@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="Stylesheet.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Handwäsche</title>
+  <title>Produkte</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="../css/bootstrap.css">
   <link rel="stylesheet" href="../css/Stylesheet.css">
@@ -36,7 +36,7 @@
 
   <script>
     $(document).ready(function() {
-      //AJAX for products-------------------------------------------------------------------------------------------------------------------
+      //AJAX to display each product-------------------------------------------------------------------------------------------------------------------
       $.ajax({
         url: "http://localhost:8000/api/produkt/vonKategorie/" + $.urlParam('kategorie'),
         method: "get",
@@ -64,9 +64,7 @@
           tmp += '</div>';
           tmp += '<div class="product-content">';
 
-
-
-          if (response.daten[i].auflager) {
+          if (response.daten[i].auflager) { //Two different buttons depending on the product is available or not
             tmp += '<h3 class="title"><a href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].name + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") + ' €</br>inkl. MwSt.</a></h3>';
             tmp += '<input id="userInput' + response.daten[i].id + '" step="1" data-step-max="10" type="number" value="1" data-decimals="0" min="1" max="360" class="col-4" />';
             tmp += '<button onclick="Input(' + response.daten[i].id + ')">In den Warenkorb</button>';
@@ -76,7 +74,6 @@
             tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="1" data-decimals="0" min="1" max="360" class="col-4" />';
             tmp += '<button onclick="NotAvail()">In den Warenkorb</button>';
           }
-
           tmp += '</div>';
           tmp += '</div>';
           tmp += '</div>';
@@ -85,7 +82,8 @@
 
 
 
-        $('#produktliste').html(tmp);
+        $('#produktliste').html(tmp); //Show finally all Products on the page
+
       }).fail(function(jqXHR, statusText, error) {
         console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
         alert("Ein Fehler ist aufgetreten");
@@ -96,8 +94,7 @@
 
     function Input(produktid) { //function to post product into the bin or update already existing product in the bin
 
-      var Input = document.getElementById('userInput' + produktid + '').value;
-
+      var Input = document.getElementById('userInput' + produktid + '').value; //How Many products want the customer?
 
       //AJAX to check and set variable if the product exists already in an order_position-------------------------------------------------------------------------------------------------------------------
       $.ajax({
@@ -106,17 +103,13 @@
         dataType: "json"
       }).done(function(response) {
         var inBestellposition = response.daten;
-
         if (inBestellposition) { //If Product already in the bin....
-          var x = 0;
           $.ajax({
             url: "http://localhost:8000/api/bestellposition/gib/" + produktid,
             method: "get",
             dataType: "json"
           }).done(function(response) {
-
-            sum = parseInt(Input, 10) + parseInt(response.daten.Menge, 10);
-
+            sum = parseInt(Input, 10) + parseInt(response.daten.Menge, 10); //Add the amount of the product to the new amount inserted by the customer
             var obj = {
               "menge": sum,
               "produktid": produktid
@@ -127,24 +120,17 @@
               method: "put",
               contentType: "application/json",
               data: JSON.stringify(obj)
-            }).done(function(response) {
-
-            }).fail(function(jqXHR, statusText, error) {
+            }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
               console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
               $("#output").html("Ein Fehler ist aufgetreten");
             });
-
             alert("Der Warenkorb wurde erfolgreich abgeändert!");
             window.location.reload(true);
-
-
-
 
           }).fail(function(jqXHR, statusText, error) {
             console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
             alert("Ein Fehler ist aufgetreten");
           });
-
 
         } else { //product not yet in the bin
 
@@ -164,7 +150,6 @@
             console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
             $("#output").html("Ein Fehler ist aufgetreten");
           });
-
           alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
           window.location.reload(true);
 
@@ -177,10 +162,8 @@
       });
 
 
-    } //Endfunction
+    } //End function input()
   </script>
-
-
 </body>
 
 </html>

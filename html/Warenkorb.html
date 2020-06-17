@@ -29,7 +29,7 @@
   <script>
     $(document).ready(function() {
       //AJAX for products-------------------------------------------------------------------------------------------------------------------
-      $.ajax({ //Load all
+      $.ajax({ //Load all items the customer want to buy
         url: "http://localhost:8000/api/bestellposition/alle",
         method: "get",
         dataType: "json"
@@ -45,8 +45,7 @@
           tmp += '<th>Stückpreis</th>';
           tmp += '<th>Mengenpreis</th>';
           tmp += '</tr>';
-
-          for (i = 0; i < response.daten.length; i++) {
+          for (i = 0; i < response.daten.length; i++) { //Show each Product
             tmp += '<tr>';
             tmp += '<td><a href="produktdetail.html?produkt=' + response.daten[i].produkt.id + '" style="color: black;">' + response.daten[i].produkt.name + '</a></td>';
             tmp += '<td><input id="Input' + response.daten[i].produkt.id + '" step="1" data-step-max="10" type="number" value="' + response.daten[i].menge +
@@ -55,18 +54,15 @@
             tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + ' €</td>';
             tmp += '<td><button onclick="DeleteItem(' + response.daten[i].produkt.id + ')" class="button">X</button></td>';
             tmp += '</tr>';
-
-
           } // end for
-
 
 
           var Gesamtkosten = 0;
           var gesamtMWST = 0;
-          for (i = 0; i < response.daten.length; i++) {
+          for (i = 0; i < response.daten.length; i++) { //Calculate the correct Price depending on the amount
             Gesamtkosten = Gesamtkosten + (response.daten[i].produkt.bruttopreis * response.daten[i].menge);
             gesamtMWST = gesamtMWST + (response.daten[i].produkt.mehrwertsteueranteil * response.daten[i].menge);
-          }
+          } //End for
           tmp += '<tr></tr>';
           tmp += '<tr>';
           tmp += '<td></td>';
@@ -90,12 +86,7 @@
           tmp += '</tr>';
           tmp += '</div>';
           tmp += '</table>';
-
-
-
-
-
-        }
+        } //End else
 
         $('#tabelle').html(tmp);
 
@@ -122,9 +113,7 @@
         method: "put",
         contentType: "application/json",
         data: JSON.stringify(obj)
-      }).done(function(response) {
-
-      }).fail(function(jqXHR, statusText, error) {
+      }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
         console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
         $("#output").html("Ein Fehler ist aufgetreten");
       });
@@ -132,30 +121,22 @@
       setTimeout(function() {
         window.location.reload(true);
       }, 500);
-    }
+    } //End Function Change()
 
 
-    function DeleteItem(id) {
+    function DeleteItem(id) { //function to delete an item out of the bin
       $.ajax({
         url: "http://localhost:8000/api/bestellposition/" + id,
         method: "delete",
-
-      }).done(function(response) {
-
-      }).fail(function(jqXHR, statusText, error) {
+      }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
         console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
         $("#output").html("Ein Fehler ist aufgetreten");
       });
-
       setTimeout(function() {
         window.location.reload(true);
       }, 500);
-
-
-    }
+    } //End Function DeleteItem()
   </script>
-
-
 </body>
 <hr>
 
