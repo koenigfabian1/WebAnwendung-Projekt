@@ -81,12 +81,9 @@ class BestellpositionDao {
 
         if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
-
-        var newObj = this.loadById(result.lastInsertRowid);
-        return newObj;
     }
 
-    update(menge,produktid) {
+    update(produktid,menge) {
         var sql = "UPDATE Bestellposition SET Menge=? WHERE ProduktID=?";
         var statement = this._conn.prepare(sql);
         var params = [produktid, menge];
@@ -95,8 +92,6 @@ class BestellpositionDao {
         if (result.changes != 1)
             throw new Error("Could not update existing Record. Data: " + params);
 
-        var updatedObj = this.loadById(id);
-        return updatedObj;
     }
 
     delete(id) {

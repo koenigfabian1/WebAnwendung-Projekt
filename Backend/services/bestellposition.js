@@ -63,17 +63,15 @@ serviceRouter.delete("/bestellposition/:id", function(request, response) {
     }
 });
 
-serviceRouter.put("/produkt", function(request, response) {
-    helper.log("Service Produkt: Client requested update of existing record");
+serviceRouter.put("/bestellposition", function(request, response) {
+    helper.log("Service Bestellposition: Client requested update of existing record");
 
     const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
-
     try {
-        var result = produktDao.update(request.body.id,);
-        helper.log("Service Produkt: Record updated, id=" + request.body.id);
+        var result = bestellpositionDao.update(request.body.menge, request.body.produktid);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
-        helper.logError("Service Produkt: Error updating record by id. Exception occured: " + ex.message);
+        helper.logError("Service Bestellposition: Error updating record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });

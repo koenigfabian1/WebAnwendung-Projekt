@@ -1,6 +1,5 @@
-function Input()
+function NotAvail()
 {
-  window.input=document.getElementById("userInput").value;
-  document.getElementById("userInput").value="0";
-  alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
+  document.getElementById("userInput").value=0;
+  alert("Das Produkt wurde nicht zum Warenkorb hinzugefügt! - Produkt nicht auf Lager.");
 }
