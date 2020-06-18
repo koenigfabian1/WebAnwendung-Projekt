@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Bestellbestätigung</title>
+
+	<link rel="stylesheet" href="../css/bootstrap.css">
+	<link rel="stylesheet" href="../css/Stylesheet.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+	<script src="../js/tools.js"></script>
+	<script src="../js/navi_footer.js"></script>
+</head>
+
+<body>
+	<div id="confirmation" class="kontakt" style="margin-left:30px;margin-top:15px;">
+		<!--<h1 style="text-align: center;">Vielen Dank für ihre Bestellung!</h1>
+			<h2 style="text-align: center;">Ihre Bestellung vom 12.04.2020 19:45 Uhr:</h2>
+			<h2 style="text-align: center;">Bestellnummer: 12345</h2>
+			<div style="text-align: center;" class="wrapper">
+				<input onclick="window.print()" type="image" src="../img/Drucken.png" alt="Drucken">
+			</div>
+			<div class="container wasdienedgeschafthaben">
+				<div class="row">
+					<table>
+
+
+						<tr>
+							<th>Artikel</th>
+							<th>Menge</th>
+							<th>Mengenpreis</th>
+						</tr>
+
+						<tr>
+							<td>Gloria FM10</td>
+							<td>3</td>
+							<td>89,97 €</td>
+
+						</tr>
+						<tr>
+							<td>SONAX AutoShampoo</td>
+							<td>1</td>
+							<td>5,79 €</td>
+
+
+						</tr>
+						<tr>
+							<td>Menzerna 400</td>
+							<td>2</td>
+							<td>27,89 €</td>
+
+						</tr>
+						<tr>
+							<td>SWISSVAX SWIZÖL Autobahn</td>
+							<td>1</td>
+							<td>39,99 €</td>
+
+						</tr>
+						<tr></tr>
+						<tr>
+							<td></td>
+							<td>inkl. 19% MwSt.</td>
+							<td>34,37 €</td>
+						</tr>
+
+						<tr>
+							<td>Gesamtkosten:</td>
+							<td></td>
+							<td>180,87 €</td>
+							<td></td>
+						</tr>
+
+
+				</div>
+				</table>
+
+
+
+			</div>
+	</div>
+
+
+	<h2 style="text-align: center;">Ihre Zahlungsweise: Paypal</h2>
+
+	<div>
+		<h2 style="text-align: left;">Ihre Lieferanschrift:</h2>
+		<p style="text-align: left;">Vorname: Max</p>
+		<p style="text-align: left;">Nachname: Muster</p>
+		<p style="text-align: left;">Straße/Hausnummer: Musterstraße 5</p>
+		<p style="text-align: left;">PLZ: 11111</p>
+		<p style="text-align: left;">Ort: Musterhausen</p>
+	</div>
+
+
+	</div>
+
+-->
+		<hr>
+
+		<script>
+			$(document).ready(function() {
+				//AJAX to get the order of the customer and...................................................
+				$.ajax({
+					url: "http://localhost:8000/api/bestellung/letzte",
+					method: "get",
+					dataType: "json"
+				}).done(function(response) {
+					var order = '';
+					var Gesamtkosten = 0;
+					var tmp = '';
+					order = response
+					//Create confirmation..................................................................................................
+
+					tmp += '<h1 style="text-align: center;">Vielen Dank für ihre Bestellung!</h1>';
+					tmp += '<h2 style="text-align: center;">Ihre Bestellung vom' + order.daten.bestellzeitpunkt + '</h2>';
+					tmp += '<h2 style="text-align: center;">Bestellnummer:' + order.daten.id + '</h2>';
+					tmp += '<div style="text-align: center;" class="wrapper">';
+					tmp += '<input onclick="window.print()" type="image" src="../img/Drucken.png" alt="Drucken">';
+					tmp += '</div>';
+					tmp += '<div class="container wasdienedgeschafthaben">';
+					tmp += '<div class="row">';
+
+					var tmp1='';
+					$.ajax({ //Load all items the customer want to buy
+						url: "http://localhost:8000/api/bestellposition/alle",
+						method: "get",
+						async: "false",
+						dataType: "json"
+					}).done(function(response) {
+						var tmp='';
+						tmp += '<table>';
+						tmp += '<tr>';
+						tmp += '<th>Artikel</th>';
+						tmp += '<th>Menge</th>';
+						tmp += '<th>Stückpreis</th>';
+						tmp += '<th>Mengenpreis</th>';
+						tmp += '</tr>';
+						for (i = 0; i < response.daten.length; i++) { //Show each Product
+							tmp += '<tr>';
+							tmp += '<td><a href="produktdetail.html?produkt=' + response.daten[i].produkt.id + '" style="color: black;">' + response.daten[i].produkt.name + '</a></td>';
+							tmp += '<td>' + response.daten[i].menge + '</td>';
+							tmp += '<td>' + response.daten[i].produkt.bruttopreis.toString().replace(".", ",") + ' €</td>';
+							tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + ' €</td>';
+							tmp += '</tr>';
+						} // end for
+
+						var gesamtMWST = 0;
+						for (i = 0; i < response.daten.length; i++) { //Calculate the correct Price depending on the amount
+							Gesamtkosten = Gesamtkosten + (response.daten[i].produkt.bruttopreis * response.daten[i].menge);
+							gesamtMWST = gesamtMWST + (response.daten[i].produkt.mehrwertsteueranteil * response.daten[i].menge);
+						} //End for
+						tmp += '<tr></tr>';
+						tmp += '<tr>';
+						tmp += '<td></td>';
+						tmp += '<td>inkl. 19% MwSt.</td>';
+						tmp += '<td>' + Number(gesamtMWST).toFixed(2).toString().replace(".", ",") + '€</td>';
+						tmp += '</tr>';
+						tmp += '<tr>';
+						tmp += '<td>Gesamtkosten:</td>';
+						tmp += '<td></td>';
+						tmp += '<td></td>';
+						tmp += '<td>' + Number(Gesamtkosten).toFixed(2).toString().replace(".", ",") + ' €</td>';
+						tmp += '<td></td>';
+						tmp += '</tr>';
+						tmp += '</table>';
+						tmp += '</div>';
+						tmp += '</div>';
+
+
+
+						tmp1=tmp;
+
+
+					}).fail(function(jqXHR, statusText, error) {
+						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+						alert("Ein Fehler ist aufgetreten");
+					});
+					console.log(tmp1);
+					tmp+=tmp1;
+					tmp += '<h2>Ihre Zahlungsweise:' + order.daten.zahlungsart.bezeichnung + '</h2>'
+
+
+					if ($.urlParam('zahlungsart') == 2) { //Check if Bank transfer as payment selected
+						tmp += '<div class="row">';
+						tmp += '<div class="column">'
+						tmp += '<h2>Unsere Bankverbindung:</h2>';
+						tmp += '<p style="text-align: justify;">Bitte überweisen sie den Betrag von' + Gesamtkosten + ' € an folgende Bankverbindung:</p>';
+						tmp += '<p style="text-align: justify;"><b>Deluxe Car Care</b></p>';
+						tmp += '<p style="text-align: justify;"><b>Bank: Musterbank</b></p>';
+						tmp += '<p style="text-align: justify;"><b>IBAN: DE 12 3456 7890 1234 5678</b></p>';
+						tmp += '</div>';
+						tmp += '<div class="column">';
+						tmp += '<h2>Ihre Lieferanschrift:</h2>';
+						tmp += '<p style="text-align: justify;">Vorname:' + order.daten.besteller.vorname + '</p>';
+						tmp += '<p style="text-align: justify;">Nachname: ' + order.daten.besteller.nachname + '</p>';
+						tmp += '<p style="text-align: justify;">Straße/Hausnummer: ' + order.daten.besteller.adresse.strasse + ' ' + order.daten.besteller.adresse.hausnummer + '</p>';
+						tmp += '<p style="text-align: justify;">PLZ:' + order.daten.besteller.adresse.plz + '</p>';
+						tmp += '<p style="text-align: justify;">Ort:' + order.daten.besteller.adresse.ort + '</p>';
+						tmp += '</div>';
+						tmp += '</div>';
+						tmp += '</div>';
+
+					} else {
+						tmp += '<div>';
+						tmp += '<h2 style="text-align: left;">Ihre Lieferanschrift:</h2>';
+						tmp += '<p style="text-align: justify;">Vorname:' + order.daten.besteller.vorname + '</p>'
+						tmp += '<p style="text-align: justify;">Nachname:' + order.daten.besteller.nachname + '</p>';
+						tmp += '<p style="text-align: justify;">Straße/Hausnummer: ' + order.daten.besteller.adresse.strasse + ' ' + order.daten.besteller.adresse.hausnummer + '</p>';
+						tmp += '<p style="text-align: justify;">PLZ:' + order.daten.besteller.adresse.plz + '</p>';
+						tmp += '<p style="text-align: justify;">Ort:' + order.daten.besteller.adresse.ort + '</p>';
+						tmp += '</div>';
+						tmp += '</div>';
+						tmp += '</div>';
+
+
+					} //End if
+
+					$('#confirmation').html(tmp);
+
+
+
+				}).fail(function(jqXHR, statusText, error) {
+					console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+					alert("Ein Fehler ist aufgetreten");
+				});
+
+
+
+			}); //End document ready
+		</script>
+
+
+</body>
+
+</html>

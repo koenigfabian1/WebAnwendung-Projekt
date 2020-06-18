@@ -17,6 +17,20 @@ serviceRouter.get("/bestellung/gib/:id", function(request, response) {
     }
 });
 
+serviceRouter.get("/bestellung/letzte", function(request, response) {
+    helper.log("Service Bestellung: Client requested one record");
+
+    const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
+    try {
+        var result = bestellungDao.loadLast();
+        helper.log("Service Bestellung: Record loaded");
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Bestellung: Error loading record by id. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 serviceRouter.get("/bestellung/alle/", function(request, response) {
     helper.log("Service Bestellung: Client requested all records");
 

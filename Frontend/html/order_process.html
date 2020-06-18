@@ -225,31 +225,27 @@
         });
 
 
-//Reset the Input Values-------------------------------------------------
-        document.getElementById("Vorname").value='';
-        document.getElementById("Nachname").value='';
-        document.getElementById("Straße").value='';
-        document.getElementById("Hausnummer").value='';
-        document.getElementById("PLZ").value='';
-        document.getElementById("Ort").value='';
-//Set the correct routing to the order confirmation depending on the payment option...........................................
-
-        if (document.getElementById('slide1').checked) {
-          document.getElementById('myLink').href = "order_confirm_uber.html";
-        }
-        if (document.getElementById('slide3').checked) {
-          document.getElementById('myLink').href = "order_confirm_Rech.html";
-        }
-        if (document.getElementById('slide2').checked) {
-          document.getElementById('myLink').href = "order_confirm.html";
-        }
-
-
-        
+        //Reset the Input Values-------------------------------------------------
+        document.getElementById("Vorname").value = '';
+        document.getElementById("Nachname").value = '';
+        document.getElementById("Straße").value = '';
+        document.getElementById("Hausnummer").value = '';
+        document.getElementById("PLZ").value = '';
+        document.getElementById("Ort").value = '';
       } //End if
 
 
+      //Set the correct routing to the order confirmation depending on the payment option...........................................
 
+      if (document.getElementById('slide1').checked) {
+        document.getElementById('myLink').href = "orderconfirm.html?zahlungsart=2";
+      }
+      if (document.getElementById('slide3').checked) {
+        document.getElementById('myLink').href = "orderconfirm.html?zahlungsart=3";
+      }
+      if (document.getElementById('slide2').checked) {
+        document.getElementById('myLink').href = "orderconfirm.html?zahlungsart=1";
+      }
 
 
 

@@ -13,6 +13,28 @@ class BestellungDao {
         return this._conn;
     }
 
+
+    loadLast() {
+        const personDao = new PersonDao(this._conn);
+        const zahlungsartDao = new ZahlungsartDao(this._conn);
+
+        var sql = "SELECT * FROM Bestellung ORDER BY id DESC LIMIT 0, 1";
+        var statement = this._conn.prepare(sql);
+        var result = statement.get();
+
+        if (helper.isUndefined(result))
+            throw new Error("No Record found by id=" + id);
+
+        result = helper.objectKeysToLower(result);
+
+        result.besteller = personDao.loadById(result.bestellerid);
+        delete result.bestellerID;
+
+        result.zahlungsart = zahlungsartDao.loadById(result.zahlungsartid);
+        delete result.zahlungsartid;
+
+        return result;
+    }
     loadById(id) {
         const bestellpositionDao = new BestellpositionDao(this._conn);
         const personDao = new PersonDao(this._conn);
