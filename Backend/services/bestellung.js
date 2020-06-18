@@ -68,14 +68,8 @@ serviceRouter.post("/bestellung", function(request, response) {
     } else if (helper.isUndefined(request.body.zahlungsart.id)) {
         errorMsgs.push("zahlungsart gesetzt, aber id fehlt");
     }
-    if (helper.isUndefined(request.body.bestellpositionen)) {
-        errorMsgs.push("bestellpositionen fehlen");
-    } else if (!helper.isArray(request.body.bestellpositionen)) {
-        errorMsgs.push("bestellpositionen ist kein array");
-    } else if (request.body.bestellpositionen.length == 0) {
-        errorMsgs.push("bestellpositionen is leer, nichts zu speichern");
-    }
-    
+
+
     if (errorMsgs.length > 0) {
         helper.log("Service Bestellung: Creation not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
@@ -84,7 +78,7 @@ serviceRouter.post("/bestellung", function(request, response) {
 
     const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
     try {
-        var result = bestellungDao.create(request.body.bestellzeitpunkt, request.body.besteller, request.body.zahlungsart.id, request.body.bestellpositionen);
+        var result = bestellungDao.create(request.body.bestellzeitpunkt, request.body.besteller, request.body.zahlungsart.id);
         helper.log("Service Bestellung: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -97,7 +91,7 @@ serviceRouter.put("/bestellung", function(request, response) {
     helper.log("Service Bestellung: Client requested update of existing record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.id)) 
+    if (helper.isUndefined(request.body.id))
         errorMsgs.push("id fehlt");
     if (helper.isUndefined(request.body.bestellzeitpunkt)) {
         request.body.bestellzeitpunkt = helper.getNow();
@@ -140,7 +134,7 @@ serviceRouter.put("/bestellung", function(request, response) {
     } catch (ex) {
         helper.logError("Service Bestellung: Error updating record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
-    }    
+    }
 });
 
 serviceRouter.delete("/bestellung/:id", function(request, response) {

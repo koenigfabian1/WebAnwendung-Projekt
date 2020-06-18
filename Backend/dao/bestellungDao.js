@@ -22,7 +22,7 @@ class BestellungDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         result = helper.objectKeysToLower(result);
@@ -40,7 +40,7 @@ class BestellungDao {
         delete result.zahlungsartid;
 
         result.bestellpositionen = bestellpositionDao.loadByParent(result.id);
-        
+
         result.total = { "netto": 0, "brutto": 0, "mehrwertsteuer": 0 };
 
         for (i = 0; i < result.bestellpositionen.length; i++) {
@@ -68,7 +68,7 @@ class BestellungDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
 
         result = helper.arrayObjectKeysToLower(result);
@@ -105,8 +105,8 @@ class BestellungDao {
                     result[i].total.netto += element.nettosumme;
                     result[i].total.brutto += element.bruttosumme;
                     result[i].total.mehrwertsteuer += element.mehrwertsteuersumme;
-                    result[i].bestellpositionen.push(element);    
-                }                
+                    result[i].bestellpositionen.push(element);
+                }
             }
 
             result[i].total.netto = helper.round(result[i].total.netto);
@@ -122,16 +122,14 @@ class BestellungDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (result.cnt == 1) 
+        if (result.cnt == 1)
             return true;
 
         return false;
     }
 
-    create(bestellzeitpunkt = null, bestellerid = null, zahlungsartid = null, bestellpositionen = []) {
-        const bestellpositionDao = new BestellpositionDao(this._conn);
-
-        if (helper.isNull(bestellzeitpunkt)) 
+    create(bestellzeitpunkt, bestellerid, zahlungsartid) {
+          if (helper.isNull(bestellzeitpunkt))
             bestellzeitpunkt = helper.getNow();
 
         var sql = "INSERT INTO Bestellung (Bestellzeitpunkt,BestellerID,ZahlungsartID) VALUES (?,?,?)";
@@ -139,24 +137,15 @@ class BestellungDao {
         var params = [helper.formatToSQLDateTime(bestellzeitpunkt), bestellerid, zahlungsartid];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
-
-        if (bestellpositionen.length > 0) {
-            for (var element of bestellpositionen) {
-                bestellpositionDao.create(result.lastInsertRowid, element.produkt.id, element.menge);
-            }
-        }
-
-        var newObj = this.loadById(result.lastInsertRowid);
-        return newObj;
     }
 
     update(id, bestellzeitpunkt = null, bestellerid = null, zahlungsartid = null, bestellpositionen = []) {
         const bestellpositionDao = new BestellpositionDao(this._conn);
         bestellpositionDao.deleteByParent(id);
 
-        if (helper.isNull(bestellzeitpunkt)) 
+        if (helper.isNull(bestellzeitpunkt))
             bestellzeitpunkt = helper.getNow();
 
         var sql = "UPDATE Bestellung SET Bestellzeitpunkt=?,BestellerID=?,ZahlungsartID=? WHERE ID=?";
@@ -164,9 +153,9 @@ class BestellungDao {
         var params = [helper.formatToSQLDateTime(bestellzeitpunkt), bestellerid, zahlungsartid, id];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not update existing Record. Data: " + params);
-        
+
         if (bestellpositionen.length > 0) {
             for (var element of bestellpositionen) {
                 bestellpositionDao.create(id, element.produkt.id, element.menge);
@@ -186,7 +175,7 @@ class BestellungDao {
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
-            if (result.changes != 1) 
+            if (result.changes != 1)
                 throw new Error("Could not delete Record by id=" + id);
 
             return true;

@@ -14,6 +14,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
   <script src="../js/navi_footer_orderprocess.js"></script>
+  <script src="../js/tools.js"></script>
+
+
 
 </head>
 
@@ -88,14 +91,9 @@
   </div>
 
   <script>
-    $(document).ready(function() {
-
-    }); //End document ready
-
-
-
     function SendData() {
 
+      //Checking the Input which the customer inserted-------------------------------------------------------------------------------
       var fail = '';
       var reg = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; //Regex to check the Input
 
@@ -104,28 +102,25 @@
       console.log(Anrede);
 
       var Vorname = document.getElementById("Vorname").value;
-      if (reg.test(Vorname)) {
-      }else{
+      if (reg.test(Vorname)) {} else {
         fail += '-Geben sie einen gültigen Vorname ein!\n';
       }
       console.log(Vorname);
 
       var Nachname = document.getElementById("Nachname").value;
-      if (reg.test(Nachname)) {
-      }else{
+      if (reg.test(Nachname)) {} else {
         fail += '-Geben sie einen gültigen Nachname ein!\n';
       }
       console.log(Nachname);
 
       var Straße = document.getElementById("Straße").value;
-      if (reg.test(Straße)) {
-      }else{
+      if (reg.test(Straße)) {} else {
         fail += '-Geben sie eine gültige Straße ein!\n';
       }
       console.log(Straße);
 
       var Hausnummer = document.getElementById("Hausnummer").value;
-      if (Hausnummer.toString().length>5 || isNaN(Hausnummer)) {
+      if (Hausnummer.toString().length > 5 || isNaN(Hausnummer)) {
         fail += '-Geben sie eine gültige Hausnummer ein!\n';
       }
       console.log(Hausnummer);
@@ -138,31 +133,108 @@
       }
 
       var Ort = document.getElementById("Ort").value;
-      if (reg.test(Ort)) {
-      }else{
+      if (reg.test(Ort)) {} else {
         fail += '-Geben sie einen gültigen Ort ein!\n';
       }
       console.log(Ort)
 
       if (fail != '') {
         alert(fail);
-
       }
 
-
+      //Section entered only when the client entered all Input Boxes correctly-------------------------------------------------------------------------------
       if (fail == '') {
+        var besteller = '';
+        //Create new Adress Object for the customer---------------------------------------------------------------------------------------------
+        var objadresse = {
+          "strasse": Straße,
+          "hausnummer": Hausnummer,
+          "plz": PLzahl,
+          "ort": Ort
+        };
 
-        //TODA SEND AJAX! AND Direct to next page
+        $.ajax({ //use POST to create a new adress
+          url: "http://localhost:8000/api/adresse",
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify(objadresse)
+        }).done(function(response) {
+          //If adress posted correctly add the customer in the DB----------------------------------------------------------------------------------------
+
+          var objperson = {
+            "anrede": Anrede,
+            "vorname": Vorname,
+            "nachname": Nachname,
+            "adresse": response.daten
+          };
+
+          $.ajax({ //use POST to create a new person
+            url: "http://localhost:8000/api/person",
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify(objperson)
+          }).done(function(response) {
+            //If person posted correctly GET the payment option to finally create an order-----------------------------------------------------------------------
+            besteller = response;
+            var zahlart = 0;
+
+            if (document.getElementById('slide1').checked) {
+              zahlart = 2;
+            }
+            if (document.getElementById('slide3').checked) {
+              zahlart = 3;
+            }
+            if (document.getElementById('slide2').checked) {
+              zahlart = 1;
+            }
+
+            $.ajax({
+              url: "http://localhost:8000/api/zahlungsart/gib/" + zahlart,
+              method: "get",
+              dataType: "json"
+            }).done(function(response) {
+              //Correct Payment Option gathered and now the order can be created----------------------------------------------------------------------------------------
+
+              var objbestellung = {
+                "bestellzeitpunkt": getTimestamp(),
+                "besteller": besteller.daten,
+                "zahlungsart": response.daten,
+
+              };
+
+              $.ajax({ //use POST to create a new order
+                url: "http://localhost:8000/api/bestellung",
+                method: "post",
+                contentType: "application/json",
+                data: JSON.stringify(objbestellung)
+              }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+                console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+                $("#output").html("Ein Fehler ist aufgetreten");
+              });
+            }).fail(function(jqXHR, statusText, error) {
+              console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+              $("#output").html("Ein Fehler ist aufgetreten");
+            });
+          }).fail(function(jqXHR, statusText, error) {
+            console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+            $("#output").html("Ein Fehler ist aufgetreten");
+          });
+        }).fail(function(jqXHR, statusText, error) {
+          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+          $("#output").html("Ein Fehler ist aufgetreten");
+        });
 
 
-        //VALUE FOR Fields RESETEN
-        /*document.getElementById("Vorname").value='';
+//Reset the Input Values-------------------------------------------------
+        document.getElementById("Vorname").value='';
         document.getElementById("Nachname").value='';
         document.getElementById("Straße").value='';
         document.getElementById("Hausnummer").value='';
         document.getElementById("PLZ").value='';
-        document.getElementById("Ort").value='';*/
-        if(document.getElementById('slide1').checked) {
+        document.getElementById("Ort").value='';
+//Set the correct routing to the order confirmation depending on the payment option...........................................
+
+        if (document.getElementById('slide1').checked) {
           document.getElementById('myLink').href = "order_confirm_uber.html";
         }
         if (document.getElementById('slide3').checked) {
@@ -171,7 +243,10 @@
         if (document.getElementById('slide2').checked) {
           document.getElementById('myLink').href = "order_confirm.html";
         }
-      }//End if
+
+
+        
+      } //End if
 
 
 
