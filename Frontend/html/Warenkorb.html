@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <link rel="stylesheet" href="Stylesheet.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warenkorb</title>
+  <link rel="stylesheet" href="../css/bootstrap.css">
+  <link rel="stylesheet" href="../css/Stylesheet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/tools.js"></script>
+  <script src="../js/navi_footer.js"></script>
+</head>
+
+<body>
+  <div class="container wasdienedgeschafthaben">
+    <div class="row" id="tabelle">
+
+
+
+    </div>
+  </div>
+
+
+  <script>
+    $(document).ready(function() {
+      //AJAX for products-------------------------------------------------------------------------------------------------------------------
+      $.ajax({ //Load all items the customer want to buy
+        url: "http://localhost:8000/api/bestellposition/alle",
+        method: "get",
+        dataType: "json"
+      }).done(function(response) {
+        var tmp = '';
+        if (response.daten.length == 0) { //Bin is empty
+          tmp += '<h2>Warenkorb ist leer</h2>';
+        } else {
+          tmp += '<table>';
+          tmp += '<tr>';
+          tmp += '<th>Artikel</th>';
+          tmp += '<th>Menge</th>';
+          tmp += '<th>Stückpreis</th>';
+          tmp += '<th>Mengenpreis</th>';
+          tmp += '</tr>';
+          for (i = 0; i < response.daten.length; i++) { //Show each Product
+            tmp += '<tr>';
+            tmp += '<td><a href="produktdetail.html?produkt=' + response.daten[i].produkt.id + '" style="color: black;">' + response.daten[i].produkt.name + '</a></td>';
+            tmp += '<td><input id="Input' + response.daten[i].produkt.id + '" step="1" data-step-max="10" type="number" value="' + response.daten[i].menge +
+              '" data-decimals="0" min="1" max="360" class="col-3" /><button class="buttonchange" onclick="Change(' + response.daten[i].produkt.id + ')">Menge ändern</button></td>';
+            tmp += '<td>' + response.daten[i].produkt.bruttopreis.toString().replace(".", ",") + ' €</td>';
+            tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + ' €</td>';
+            tmp += '<td><button onclick="DeleteItem(' + response.daten[i].produkt.id + ')" class="button">X</button></td>';
+            tmp += '</tr>';
+          } // end for
+
+
+          var Gesamtkosten = 0;
+          var gesamtMWST = 0;
+          for (i = 0; i < response.daten.length; i++) { //Calculate the correct Price depending on the amount
+            Gesamtkosten = Gesamtkosten + (response.daten[i].produkt.bruttopreis * response.daten[i].menge);
+            gesamtMWST = gesamtMWST + (response.daten[i].produkt.mehrwertsteueranteil * response.daten[i].menge);
+          } //End for
+          tmp += '<tr></tr>';
+          tmp += '<tr>';
+          tmp += '<td></td>';
+          tmp += '<td></td>';
+          tmp += '<td>inkl. 19% MwSt.</td>';
+          tmp += '<td>' + Number(gesamtMWST).toFixed(2).toString().replace(".", ",") + '€</td>';
+          tmp += '</tr>';
+          tmp += '<tr>';
+          tmp += '<td>Gesamtkosten:</td>';
+          tmp += '<td></td>';
+          tmp += '<td></td>';
+          tmp += '<td>' + Number(Gesamtkosten).toFixed(2).toString().replace(".", ",") + ' €</td>';
+          tmp += '<td></td>';
+          tmp += '</tr>';
+          tmp += '<tr>';
+          tmp += '<td valigin:center></td>';
+          tmp += '<td></td>';
+          tmp += '<td></td>';
+          tmp += '<td><a href="order_process.html"><button>Weiter zur </br>Bestellung</button></a></td>';
+          tmp += '<td></td>';
+          tmp += '</tr>';
+          tmp += '</div>';
+          tmp += '</table>';
+        } //End else
+
+        $('#tabelle').html(tmp);
+
+      }).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        alert("Ein Fehler ist aufgetreten");
+      });
+
+
+
+    }); //End document ready
+
+    function Change(id) { //function to  update already existing product in the bin
+      var Input = 'Input' + id + '';
+      var Change = document.getElementById(Input).value;
+
+      var obj = {
+        "menge": Change,
+        "produktid": id
+      };
+
+      $.ajax({ //...Use PUT to modify the already existing product
+        url: "http://localhost:8000/api/bestellposition",
+        method: "put",
+        contentType: "application/json",
+        data: JSON.stringify(obj)
+      }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        $("#output").html("Ein Fehler ist aufgetreten");
+      });
+
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 500);
+    } //End Function Change()
+
+
+    function DeleteItem(id) { //function to delete an item out of the bin
+      $.ajax({
+        url: "http://localhost:8000/api/bestellposition/" + id,
+        method: "delete",
+      }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        $("#output").html("Ein Fehler ist aufgetreten");
+      });
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 500);
+    } //End Function DeleteItem()
+  </script>
+</body>
+<hr>
+
+</html>
