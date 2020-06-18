@@ -116,22 +116,21 @@
 					//Create confirmation..................................................................................................
 
 					tmp += '<h1 style="text-align: center;">Vielen Dank für ihre Bestellung!</h1>';
-					tmp += '<h2 style="text-align: center;">Ihre Bestellung vom' + order.daten.bestellzeitpunkt + '</h2>';
-					tmp += '<h2 style="text-align: center;">Bestellnummer:' + order.daten.id + '</h2>';
+					tmp += '<h2 style="text-align: center;">Ihre Bestellung vom ' + order.daten.bestellzeitpunkt.slice(8, 10) + '.' + order.daten.bestellzeitpunkt.slice(5, 7) + '.' + order.daten.bestellzeitpunkt.slice(0, 4) + ' um ' + order.daten
+						.bestellzeitpunkt.slice(10, 19) + ' Uhr </h2>';
+					tmp += '<h2 style="text-align: center;">Bestellnummer: ' + order.daten.id + '</h2>';
 					tmp += '<div style="text-align: center;" class="wrapper">';
 					tmp += '<input onclick="window.print()" type="image" src="../img/Drucken.png" alt="Drucken">';
 					tmp += '</div>';
 					tmp += '<div class="container wasdienedgeschafthaben">';
 					tmp += '<div class="row">';
 
-					var tmp1='';
+					var tmp1 = '';
 					$.ajax({ //Load all items the customer want to buy
 						url: "http://localhost:8000/api/bestellposition/alle",
 						method: "get",
-						async: "false",
 						dataType: "json"
 					}).done(function(response) {
-						var tmp='';
 						tmp += '<table>';
 						tmp += '<tr>';
 						tmp += '<th>Artikel</th>';
@@ -170,9 +169,62 @@
 						tmp += '</div>';
 						tmp += '</div>';
 
+						tmp += '<h2>Ihre Zahlungsweise: ' + order.daten.zahlungsart.bezeichnung + '</h2>'
 
 
-						tmp1=tmp;
+						if ($.urlParam('zahlungsart') == 2) { //Check if Bank transfer as payment selected
+							tmp += '<div class="row">';
+							tmp += '<div class="column">'
+							tmp += '<h2>Unsere Bankverbindung:</h2>';
+							tmp += '<p style="text-align: justify;">Bitte überweisen sie den Betrag von ' + Number(Gesamtkosten).toFixed(2).toString().replace(".", ",") + ' € an folgende Bankverbindung:</p>';
+							tmp += '<p style="text-align: justify;"><b>Deluxe Car Care</b></p>';
+							tmp += '<p style="text-align: justify;"><b>Bank: Musterbank</b></p>';
+							tmp += '<p style="text-align: justify;"><b>IBAN: DE 12 3456 7890 1234 5678</b></p>';
+							tmp += '</div>';
+							tmp += '<div class="column">';
+							tmp += '<h2>Ihre Lieferanschrift:</h2>';
+							tmp += '<p style="text-align: justify;">Vorname: ' + order.daten.besteller.vorname + '</p>';
+							tmp += '<p style="text-align: justify;">Nachname: ' + order.daten.besteller.nachname + '</p>';
+							tmp += '<p style="text-align: justify;">Straße/Hausnummer: ' + order.daten.besteller.adresse.strasse + ' ' + order.daten.besteller.adresse.hausnummer + '</p>';
+							tmp += '<p style="text-align: justify;">PLZ: ' + order.daten.besteller.adresse.plz + '</p>';
+							tmp += '<p style="text-align: justify;">Ort: ' + order.daten.besteller.adresse.ort + '</p>';
+							tmp += '</div>';
+							tmp += '</div>';
+							tmp += '</div>';
+
+						} else {
+							tmp += '<div>';
+							tmp += '<h2 style="text-align: left;">Ihre Lieferanschrift:</h2>';
+							tmp += '<p style="text-align: justify;">Vorname: ' + order.daten.besteller.vorname + '</p>'
+							tmp += '<p style="text-align: justify;">Nachname: ' + order.daten.besteller.nachname + '</p>';
+							tmp += '<p style="text-align: justify;">Straße/Hausnummer: ' + order.daten.besteller.adresse.strasse + ' ' + order.daten.besteller.adresse.hausnummer + '</p>';
+							tmp += '<p style="text-align: justify;">PLZ: ' + order.daten.besteller.adresse.plz + '</p>';
+							tmp += '<p style="text-align: justify;">Ort: ' + order.daten.besteller.adresse.ort + '</p>';
+							tmp += '</div>';
+							tmp += '</div>';
+							tmp += '</div>';
+
+
+						} //End if
+
+						$('#confirmation').html(tmp);
+
+//AJAX to ckear the vin for the next customer
+						$.ajax({
+							url: "http://localhost:8000/api/bestellposition/delete/all",
+							method: "delete",
+						}).done(function(response) {
+
+						}).fail(function(jqXHR, statusText, error) {
+							console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+							$("#output").html("Ein Fehler ist aufgetreten");
+						});
+
+
+
+
+
+
 
 
 					}).fail(function(jqXHR, statusText, error) {
@@ -180,47 +232,6 @@
 						alert("Ein Fehler ist aufgetreten");
 					});
 					console.log(tmp1);
-					tmp+=tmp1;
-					tmp += '<h2>Ihre Zahlungsweise:' + order.daten.zahlungsart.bezeichnung + '</h2>'
-
-
-					if ($.urlParam('zahlungsart') == 2) { //Check if Bank transfer as payment selected
-						tmp += '<div class="row">';
-						tmp += '<div class="column">'
-						tmp += '<h2>Unsere Bankverbindung:</h2>';
-						tmp += '<p style="text-align: justify;">Bitte überweisen sie den Betrag von' + Gesamtkosten + ' € an folgende Bankverbindung:</p>';
-						tmp += '<p style="text-align: justify;"><b>Deluxe Car Care</b></p>';
-						tmp += '<p style="text-align: justify;"><b>Bank: Musterbank</b></p>';
-						tmp += '<p style="text-align: justify;"><b>IBAN: DE 12 3456 7890 1234 5678</b></p>';
-						tmp += '</div>';
-						tmp += '<div class="column">';
-						tmp += '<h2>Ihre Lieferanschrift:</h2>';
-						tmp += '<p style="text-align: justify;">Vorname:' + order.daten.besteller.vorname + '</p>';
-						tmp += '<p style="text-align: justify;">Nachname: ' + order.daten.besteller.nachname + '</p>';
-						tmp += '<p style="text-align: justify;">Straße/Hausnummer: ' + order.daten.besteller.adresse.strasse + ' ' + order.daten.besteller.adresse.hausnummer + '</p>';
-						tmp += '<p style="text-align: justify;">PLZ:' + order.daten.besteller.adresse.plz + '</p>';
-						tmp += '<p style="text-align: justify;">Ort:' + order.daten.besteller.adresse.ort + '</p>';
-						tmp += '</div>';
-						tmp += '</div>';
-						tmp += '</div>';
-
-					} else {
-						tmp += '<div>';
-						tmp += '<h2 style="text-align: left;">Ihre Lieferanschrift:</h2>';
-						tmp += '<p style="text-align: justify;">Vorname:' + order.daten.besteller.vorname + '</p>'
-						tmp += '<p style="text-align: justify;">Nachname:' + order.daten.besteller.nachname + '</p>';
-						tmp += '<p style="text-align: justify;">Straße/Hausnummer: ' + order.daten.besteller.adresse.strasse + ' ' + order.daten.besteller.adresse.hausnummer + '</p>';
-						tmp += '<p style="text-align: justify;">PLZ:' + order.daten.besteller.adresse.plz + '</p>';
-						tmp += '<p style="text-align: justify;">Ort:' + order.daten.besteller.adresse.ort + '</p>';
-						tmp += '</div>';
-						tmp += '</div>';
-						tmp += '</div>';
-
-
-					} //End if
-
-					$('#confirmation').html(tmp);
-
 
 
 				}).fail(function(jqXHR, statusText, error) {

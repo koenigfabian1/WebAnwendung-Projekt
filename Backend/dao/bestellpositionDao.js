@@ -94,6 +94,21 @@ class BestellpositionDao {
         }
     }
 
+    deleteAll() {
+        try {
+            var sql = "DELETE FROM Bestellposition";
+            var statement = this._conn.prepare(sql);
+            var result = statement.run();
+
+            if (result.changes != 1)
+                throw new Error("Could not delete");
+
+            return true;
+        } catch (ex) {
+            throw new Error("Could not delete Record! Reason: " + ex.message);
+        }
+    }
+
     toString() {
         helper.log("BestellpositionDao [_conn=" + this._conn + "]");
     }

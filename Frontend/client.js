@@ -33,6 +33,10 @@ try {
     response.sendFile(path.join(__dirname, "./html", "produktdetail.html"));
   });
 
+  app.get('/orderconfirm.html*', function(request, response) {
+    response.sendFile(path.join(__dirname, "./html", "orderconfirm.html"));
+  });
+
   app.get("/start.html", (request, response) => {
     response.sendFile(path.join(__dirname, "./html", "start.html"));
   });

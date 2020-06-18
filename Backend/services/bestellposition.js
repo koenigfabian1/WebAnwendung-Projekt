@@ -90,12 +90,12 @@ serviceRouter.put("/bestellposition", function(request, response) {
     }
 });
 
-serviceRouter.delete("/bestellposition/:id", function(request, response) {
+serviceRouter.delete("/bestellposition/delete/all", function(request, response) {
     helper.log("Service Produkt: Client requested deletion of record, id=" + request.params.id);
 
     const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
     try {
-        bestellpositionDao.delete(request.params.id);
+        bestellpositionDao.deleteAll();
         helper.log("Service Produkt: Deletion of record successfull, id=" + request.params.id);
     } catch (ex) {
         helper.logError("Service Produkt: Error deleting record. Exception occured: " + ex.message);

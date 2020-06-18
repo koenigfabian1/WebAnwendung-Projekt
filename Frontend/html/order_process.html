@@ -95,38 +95,39 @@
 
       //Checking the Input which the customer inserted-------------------------------------------------------------------------------
       var fail = '';
+      var zahlart = 0;
       var reg = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; //Regex to check the Input
 
       var getAnrede = document.getElementById("Anrede");
       var Anrede = getAnrede.options[getAnrede.selectedIndex].value;
-      console.log(Anrede);
+
 
       var Vorname = document.getElementById("Vorname").value;
       if (reg.test(Vorname)) {} else {
         fail += '-Geben sie einen gültigen Vorname ein!\n';
       }
-      console.log(Vorname);
+
 
       var Nachname = document.getElementById("Nachname").value;
       if (reg.test(Nachname)) {} else {
         fail += '-Geben sie einen gültigen Nachname ein!\n';
       }
-      console.log(Nachname);
+
 
       var Straße = document.getElementById("Straße").value;
       if (reg.test(Straße)) {} else {
         fail += '-Geben sie eine gültige Straße ein!\n';
       }
-      console.log(Straße);
+
 
       var Hausnummer = document.getElementById("Hausnummer").value;
       if (Hausnummer.toString().length > 5 || isNaN(Hausnummer)) {
         fail += '-Geben sie eine gültige Hausnummer ein!\n';
       }
-      console.log(Hausnummer);
+
 
       var PLzahl = document.getElementById("PLZ").value
-      console.log(PLzahl);
+
 
       if (isNaN(PLzahl) || PLzahl.toString().length != 5) {
         fail += '-Geben sie eine gültige PLZ ein!\n';
@@ -136,7 +137,6 @@
       if (reg.test(Ort)) {} else {
         fail += '-Geben sie einen gültigen Ort ein!\n';
       }
-      console.log(Ort)
 
       if (fail != '') {
         alert(fail);
@@ -167,7 +167,7 @@
             "nachname": Nachname,
             "adresse": response.daten
           };
-
+          console.log("In Create Person");
           $.ajax({ //use POST to create a new person
             url: "http://localhost:8000/api/person",
             method: "post",
@@ -176,7 +176,7 @@
           }).done(function(response) {
             //If person posted correctly GET the payment option to finally create an order-----------------------------------------------------------------------
             besteller = response;
-            var zahlart = 0;
+
 
             if (document.getElementById('slide1').checked) {
               zahlart = 2;
@@ -194,11 +194,12 @@
               dataType: "json"
             }).done(function(response) {
               //Correct Payment Option gathered and now the order can be created----------------------------------------------------------------------------------------
-
+              var zahl='';
+              zahl=response.daten
               var objbestellung = {
                 "bestellzeitpunkt": getTimestamp(),
                 "besteller": besteller.daten,
-                "zahlungsart": response.daten,
+                "zahlungsart": zahl,
 
               };
 
@@ -207,7 +208,12 @@
                 method: "post",
                 contentType: "application/json",
                 data: JSON.stringify(objbestellung)
-              }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+              }).done(function(response) {
+                //Set the correct routing to the order confirmation depending on the payment option...........................................
+
+                window.location.href = 'orderconfirm.html?zahlungsart='+zahl.id+'';
+
+              }).fail(function(jqXHR, statusText, error) {
                 console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
                 $("#output").html("Ein Fehler ist aufgetreten");
               });
@@ -233,20 +239,6 @@
         document.getElementById("PLZ").value = '';
         document.getElementById("Ort").value = '';
       } //End if
-
-
-      //Set the correct routing to the order confirmation depending on the payment option...........................................
-
-      if (document.getElementById('slide1').checked) {
-        document.getElementById('myLink').href = "orderconfirm.html?zahlungsart=2";
-      }
-      if (document.getElementById('slide3').checked) {
-        document.getElementById('myLink').href = "orderconfirm.html?zahlungsart=3";
-      }
-      if (document.getElementById('slide2').checked) {
-        document.getElementById('myLink').href = "orderconfirm.html?zahlungsart=1";
-      }
-
 
 
     } //End SendData()
