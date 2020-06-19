@@ -71,8 +71,8 @@
           } else {
             tmp += '<h3 class="title"><a href="produktdetail.html?produkt=' + response.daten[i].id + '">' + response.daten[i].name + "- Nicht auf Lager!" + '</br>' + response.daten[i].bruttopreis.toString().replace(".", ",") +
               ' €</br>inkl. MwSt.</a></h3>';
-            tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="1" data-decimals="0" min="1" max="360" class="col-4" />';
-            tmp += '<button onclick="NotAvail()">In den Warenkorb</button>';
+            /*tmp += '<input id="userInput" step="1" data-step-max="10" type="number" value="1" data-decimals="0" min="1" max="360" class="col-4" />';
+            tmp += '<button onclick="NotAvail()">In den Warenkorb</button>';*/
           }
           tmp += '</div>';
           tmp += '</div>';
@@ -95,72 +95,77 @@
     function Input(produktid) { //function to post product into the bin or update already existing product in the bin
 
       var Input = document.getElementById('userInput' + produktid + '').value; //How Many products want the customer?
+      console.log(Input);
+      if (Input==='') { //If the client entered something else then a number
+        alert('Unzulässige Eingabe!');
+        window.location.reload(true);
+      } else {
 
-      //AJAX to check and set variable if the product exists already in an order_position-------------------------------------------------------------------------------------------------------------------
-      $.ajax({
-        url: "http://localhost:8000/api/bestellposition/existiert/" + produktid,
-        method: "get",
-        dataType: "json"
-      }).done(function(response) {
-        var inBestellposition = response.daten;
-        if (inBestellposition) { //If Product already in the bin....
-          $.ajax({
-            url: "http://localhost:8000/api/bestellposition/gib/" + produktid,
-            method: "get",
-            dataType: "json"
-          }).done(function(response) {
-            sum = parseInt(Input, 10) + parseInt(response.daten.Menge, 10); //Add the amount of the product to the new amount inserted by the customer
+        //AJAX to check and set variable if the product exists already in an order_position-------------------------------------------------------------------------------------------------------------------
+        $.ajax({
+          url: "http://localhost:8000/api/bestellposition/existiert/" + produktid,
+          method: "get",
+          dataType: "json"
+        }).done(function(response) {
+          var inBestellposition = response.daten;
+          if (inBestellposition) { //If Product already in the bin....
+            $.ajax({
+              url: "http://localhost:8000/api/bestellposition/gib/" + produktid,
+              method: "get",
+              dataType: "json"
+            }).done(function(response) {
+              sum = parseInt(Input, 10) + parseInt(response.daten.Menge, 10); //Add the amount of the product to the new amount inserted by the customer
+              var obj = {
+                "menge": sum,
+                "produktid": produktid
+              };
+
+              $.ajax({ //...Use PUT to modify the already existing product
+                url: "http://localhost:8000/api/bestellposition",
+                method: "put",
+                contentType: "application/json",
+                data: JSON.stringify(obj)
+              }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+                console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+                $("#output").html("Ein Fehler ist aufgetreten");
+              });
+              alert("Der Warenkorb wurde erfolgreich abgeändert!");
+              window.location.reload(true);
+
+            }).fail(function(jqXHR, statusText, error) {
+              console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+              alert("Ein Fehler ist aufgetreten");
+            });
+
+          } else { //product not yet in the bin
+
             var obj = {
-              "menge": sum,
-              "produktid": produktid
+              "produktid": produktid,
+              "menge": Input
             };
 
-            $.ajax({ //...Use PUT to modify the already existing product
+            $.ajax({ //use POST to create a new order_position
               url: "http://localhost:8000/api/bestellposition",
-              method: "put",
+              method: "post",
               contentType: "application/json",
               data: JSON.stringify(obj)
-            }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+            }).done(function(response) {
+
+            }).fail(function(jqXHR, statusText, error) {
               console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
               $("#output").html("Ein Fehler ist aufgetreten");
             });
-            alert("Der Warenkorb wurde erfolgreich abgeändert!");
+            alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
             window.location.reload(true);
 
-          }).fail(function(jqXHR, statusText, error) {
-            console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-            alert("Ein Fehler ist aufgetreten");
-          });
-
-        } else { //product not yet in the bin
-
-          var obj = {
-            "produktid": produktid,
-            "menge": Input
-          };
-
-          $.ajax({ //use POST to create a new order_position
-            url: "http://localhost:8000/api/bestellposition",
-            method: "post",
-            contentType: "application/json",
-            data: JSON.stringify(obj)
-          }).done(function(response) {
-
-          }).fail(function(jqXHR, statusText, error) {
-            console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-            $("#output").html("Ein Fehler ist aufgetreten");
-          });
-          alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
-          window.location.reload(true);
-
-        } //End if
+          } //End if
 
 
-      }).fail(function(jqXHR, statusText, error) {
-        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-        alert("Ein Fehler ist aufgetreten");
-      });
-
+        }).fail(function(jqXHR, statusText, error) {
+          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+          alert("Ein Fehler ist aufgetreten");
+        });
+      }
 
     } //End function input()
   </script>

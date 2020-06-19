@@ -72,10 +72,14 @@
 							gesamtMWST = gesamtMWST + (response.daten[i].produkt.mehrwertsteueranteil * response.daten[i].menge);
 						} //End for
 						tmp += '<tr></tr>';
+						tmp += '<tr style="border-bottom:1px solid black">';
+						tmp += '<td colspan="100%"></td>';
+						tmp+= '</tr>';
 						tmp += '<tr>';
 						tmp += '<td></td>';
+						tmp += '<td></td>';
 						tmp += '<td>inkl. 19% MwSt.</td>';
-						tmp += '<td>' + Number(gesamtMWST).toFixed(2).toString().replace(".", ",") + '€</td>';
+						tmp += '<td>' + Number(gesamtMWST).toFixed(2).toString().replace(".", ",") + ' €</td>';
 						tmp += '</tr>';
 						tmp += '<tr>';
 						tmp += '<td>Gesamtkosten:</td>';

@@ -62,26 +62,34 @@
 	</section>
 	<script>
 		$(document).ready(function() {
-			//console.log(JSON.parse(naviDaten)[0]);
-			var naviDaten_temp = JSON.parse(naviDaten);
-			//console.log(naviDaten_temp);
-			var tmp = '';
-			tmp += '<div class="bildle first">';
-			tmp += '<div class="ueber1">';
-			tmp += '<h1><a class="one" href="produktliste.html?kategorie=' + naviDaten_temp[0].id + '">' + naviDaten_temp[0].bezeichnung + '</a></h1>';
-			tmp += '</div>';
-			tmp += '</div>';
-			for (i = 1; i < naviDaten_temp.length; i++) {
-				tmp += '<div class="bildle">';
+			$.ajax({
+				url: "http://localhost:8000/api/produktkategorie/alle",
+				method: "get",
+				dataType: "json"
+			}).done(function(response) {
+				var tmp = '';
+				tmp += '<div class="bildle first">';
 				tmp += '<div class="ueber1">';
-				tmp += '<h1><a class="one" href="produktliste.html?kategorie=' + naviDaten_temp[i].id + '">' + naviDaten_temp[i].bezeichnung + '</a></h1>';
+				tmp += '<h1><a class="one" href="produktliste.html?kategorie=' + response.daten[0].id + '">' + response.daten[0].bezeichnung + '</a></h1>';
 				tmp += '</div>';
 				tmp += '</div>';
-			} //end for
+				for (i = 1; i < response.daten.length; i++) {
+					tmp += '<div class="bildle">';
+					tmp += '<div class="ueber1">';
+					tmp += '<h1><a class="one" href="produktliste.html?kategorie=' + response.daten[i].id + '">' + response.daten[i].bezeichnung + '</a></h1>';
+					tmp += '</div>';
+					tmp += '</div>';
+				} //end for
 
-			$('#Bilder').html(tmp);
+				$('#Bilder').html(tmp);
 
-		});
+			}).fail(function(jqXHR, statusText, error) {
+				console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+				alert("Ein Fehler ist aufgetreten");
+			});
+
+
+		}); //End Document ready
 	</script>
 </body>
 

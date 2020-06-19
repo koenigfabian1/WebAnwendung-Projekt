@@ -107,10 +107,10 @@
         if (aufLager) {
           input_button = 'Stückzahl:<br><input id="userInput" step="1" data-step-max="10" type="number" value="1" data-decimals="0" min="1" max="360" class="col-3" /><br>';
           input_button += '<br><button onclick="Input()">In den</br>Warenkorb</button>';
-        } else {
-          input_button = 'Stückzahl:<br><input id="userInput" step="1" data-step-max="10" type="number" value="1" data-decimals="1" min="0" max="360" class="col-3" /><br>';
+        } else /*{
+          input_button = 'Stückzahl:<br><input id="userInput" step="1" data-step-max="10" type="number" value="0" data-decimals="1" min="0" max="0" class="col-3" /><br>';
           input_button += '<br><button onclick="NotAvail()">In den</br>Warenkorb</button>';
-        }
+        }*/
 
 
         $('#pics').html(pics);
@@ -131,25 +131,56 @@
     function Input() { //function to post product into the bin or update already existing product in the bin
 
       var Input = document.getElementById("userInput").value;
+      console.log(Input);
+      if (Input === '') { //If the client entered something else then a number
+        alert('Unzulässige Eingabe!');
+        window.location.reload(true);
+      } else {
 
-      if (inBestellposition) { //If Product already in the bin....
-        var x = 0;
-        $.ajax({
-          url: "http://localhost:8000/api/bestellposition/gib/" + urlParam,
-          method: "get",
-          dataType: "json"
-        }).done(function(response) {
+        if (inBestellposition) { //If Product already in the bin....
+          var x = 0;
+          $.ajax({
+            url: "http://localhost:8000/api/bestellposition/gib/" + urlParam,
+            method: "get",
+            dataType: "json"
+          }).done(function(response) {
 
-          sum = parseInt(Input, 10) + parseInt(response.daten.Menge, 10);
+            sum = parseInt(Input, 10) + parseInt(response.daten.Menge, 10);
+
+            var obj = {
+              "menge": sum,
+              "produktid": urlParam
+            };
+
+            $.ajax({ //...Use PUT to modify the already existing product
+              url: "http://localhost:8000/api/bestellposition",
+              method: "put",
+              contentType: "application/json",
+              data: JSON.stringify(obj)
+            }).done(function(response) {
+
+            }).fail(function(jqXHR, statusText, error) {
+              console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+              $("#output").html("Ein Fehler ist aufgetreten");
+            });
+            alert("Der Warenkorb wurde erfolgreich abgeändert!");
+            window.location.reload(true);
+
+          }).fail(function(jqXHR, statusText, error) {
+            console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+            alert("Ein Fehler ist aufgetreten");
+          });
+
+        } else { //product not yet in the bin
 
           var obj = {
-            "menge": sum,
-            "produktid": urlParam
+            "produktid": urlParam,
+            "menge": Input
           };
 
-          $.ajax({ //...Use PUT to modify the already existing product
+          $.ajax({ //use POST to create a new order_position
             url: "http://localhost:8000/api/bestellposition",
-            method: "put",
+            method: "post",
             contentType: "application/json",
             data: JSON.stringify(obj)
           }).done(function(response) {
@@ -158,38 +189,13 @@
             console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
             $("#output").html("Ein Fehler ist aufgetreten");
           });
-          alert("Der Warenkorb wurde erfolgreich abgeändert!");
+
+          alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
           window.location.reload(true);
 
-        }).fail(function(jqXHR, statusText, error) {
-          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-          alert("Ein Fehler ist aufgetreten");
-        });
-
-      } else { //product not yet in the bin
-
-        var obj = {
-          "produktid": urlParam,
-          "menge": Input
-        };
-
-        $.ajax({ //use POST to create a new order_position
-          url: "http://localhost:8000/api/bestellposition",
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify(obj)
-        }).done(function(response) {
-
-        }).fail(function(jqXHR, statusText, error) {
-          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-          $("#output").html("Ein Fehler ist aufgetreten");
-        });
-
-        alert("Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt !");
-        window.location.reload(true);
-
+        }
       }
-    }
+    } //End Function Input()
   </script>
 </body>
 
