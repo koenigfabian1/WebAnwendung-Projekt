@@ -66,7 +66,7 @@
           tmp += '<tr></tr>';
           tmp += '<tr style="border-bottom:1px solid black">';
           tmp += '<td colspan="100%"></td>';
-          tmp+= '</tr>';
+          tmp += '</tr>';
           tmp += '<tr>';
           tmp += '<td></td>';
           tmp += '<td></td>';
@@ -106,38 +106,44 @@
       var Input = 'Input' + id + '';
       var Change = document.getElementById(Input).value;
 
-      var obj = {
-        "menge": Change,
-        "produktid": id
-      };
-
-      $.ajax({ //...Use PUT to modify the already existing product
-        url: "http://localhost:8000/api/bestellposition",
-        method: "put",
-        contentType: "application/json",
-        data: JSON.stringify(obj)
-      }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
-        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-        $("#output").html("Ein Fehler ist aufgetreten");
-      });
-
-      setTimeout(function() {
+      if (Change === '') {
+        alert("Unzulässige Eingabe!");
         window.location.reload(true);
-      }, 500);
-    } //End Function Change()
+      } else {
+
+        var obj = {
+          "menge": Change,
+          "produktid": id
+        };
+
+        $.ajax({ //...Use PUT to modify the already existing product
+          url: "http://localhost:8000/api/bestellposition",
+          method: "put",
+          contentType: "application/json",
+          data: JSON.stringify(obj)
+        }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+          $("#output").html("Ein Fehler ist aufgetreten");
+        });
+
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 500);
+      } //End Function Change()
 
 
-    function DeleteItem(id) { //function to delete an item out of the bin
-      $.ajax({
-        url: "http://localhost:8000/api/bestellposition/" + id,
-        method: "delete",
-      }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
-        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-        $("#output").html("Ein Fehler ist aufgetreten");
-      });
-      setTimeout(function() {
-        window.location.reload(true);
-      }, 500);
+      function DeleteItem(id) { //function to delete an item out of the bin
+        $.ajax({
+          url: "http://localhost:8000/api/bestellposition/" + id,
+          method: "delete",
+        }).done(function(response) {}).fail(function(jqXHR, statusText, error) {
+          console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+          $("#output").html("Ein Fehler ist aufgetreten");
+        });
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 500);
+      }
     } //End Function DeleteItem()
   </script>
 </body>
