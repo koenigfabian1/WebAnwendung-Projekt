@@ -69,16 +69,7 @@
           </div>
 
 
-          <div class="test">
-
-            <p>Geben Sie Ihre Zahlungsweise an:</p>
-
-            <input type="radio" name="slider" id="slide2">
-            <label for="mc"> Paypal</label><br />
-            <input checked="" type="radio" name="slider" id="slide1">
-            <label for="vi"> Überweisung</label><br />
-            <input type="radio" name="slider" id="slide3">
-            <label for="ae"> Auf Rechnung</label>
+          <div id="zahlungsart" class="test">
           </div></br>
           <a onclick='SendData()' style="float: right;" id="myLink"><img alt="Button" src="../img/Button.png" /></a>
 
@@ -91,11 +82,46 @@
   </div>
 
   <script>
-    function SendData() {
+    $(document).ready(function() {
+
+      //AJAX to get all payment options and display them on the order_process
+      $.ajax({
+        url: "http://localhost:8000/api/zahlungsart/alle",
+        method: "get",
+        dataType: "json"
+      }).done(function(response) {
+        tmp = '';
+        tmp += '<p>Geben Sie Ihre Zahlungsweise an:</p>';
+
+        for (i = 0; i < response.daten.length; i++) {
+          if (i == 1) {
+            tmp += '<input checked="" type="radio" name="slider" id="slide' + response.daten[i].id + '">';
+            tmp += '<label>' + response.daten[i].bezeichnung + '</label><br />';
+          } else {
+
+            tmp += '<input type="radio" name="slider" id="slide' + response.daten[i].id + '">';
+            tmp += '<label>' + response.daten[i].bezeichnung + '</label><br />';
+          }
+
+
+        } //End for
+
+        $('#zahlungsart').html(tmp); //Show finally all Products on the page
+
+
+      }).fail(function(jqXHR, statusText, error) {
+        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+        alert("Ein Fehler ist aufgetreten");
+      });
+
+
+    }); //End Document ready
+
+
+    function SendData() { //function to prepare the order information
 
       //Checking the Input which the customer inserted-------------------------------------------------------------------------------
       var fail = '';
-      var zahlart = 0;
       var reg = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; //Regex to check the Input
 
       var getAnrede = document.getElementById("Anrede");
@@ -176,7 +202,7 @@
           }).done(function(response) {
             //If person posted correctly GET the payment option to finally create an order-----------------------------------------------------------------------
             besteller = response;
-
+            var zahlart=0;
 
             if (document.getElementById('slide1').checked) {
               zahlart = 2;
@@ -194,8 +220,8 @@
               dataType: "json"
             }).done(function(response) {
               //Correct Payment Option gathered and now the order can be created----------------------------------------------------------------------------------------
-              var zahl='';
-              zahl=response.daten
+              var zahl = response.daten;
+
               var objbestellung = {
                 "bestellzeitpunkt": getTimestamp(),
                 "besteller": besteller.daten,
@@ -211,7 +237,7 @@
               }).done(function(response) {
                 //Set the correct routing to the order confirmation depending on the payment option...........................................
 
-                window.location.href = 'orderconfirm.html?zahlungsart='+zahl.id+'';
+                window.location.href = 'orderconfirm.html?zahlungsart=' + zahl.id + '';
 
               }).fail(function(jqXHR, statusText, error) {
                 console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
