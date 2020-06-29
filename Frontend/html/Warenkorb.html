@@ -63,9 +63,9 @@
             gesamtMWST = gesamtMWST + (response.daten[i].produkt.mehrwertsteueranteil * response.daten[i].menge);
           } //End for
           tmp += '<tr></tr>';
-          tmp += '<tr style="border-bottom:1px solid black">';
+          /*tmp += '<tr style="border-bottom:1px solid black">';
           tmp += '<td colspan="100%"></td>';
-          tmp += '</tr>';
+          tmp += '</tr>';*/
           tmp += '<tr>';
           tmp += '<td></td>';
           tmp += '<td></td>';
@@ -128,7 +128,8 @@
         setTimeout(function() {
           window.location.reload(true);
         }, 500);
-      } //End Function Change()
+      } //End IF
+    } //End Function Change()
 
 
       function DeleteItem(id) { //function to delete an item out of the bin
@@ -142,8 +143,7 @@
         setTimeout(function() {
           window.location.reload(true);
         }, 500);
-      }
-    } //End Function DeleteItem()
+      }//End Function DeleteItem()
   </script>
 </body>
 <hr>

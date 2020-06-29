@@ -63,26 +63,26 @@ serviceRouter.post("/produkt", function(request, response) {
     helper.log("Service Produkt: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.bezeichnung)) 
+    if (helper.isUndefined(request.body.bezeichnung))
         errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
+    if (helper.isUndefined(request.body.beschreibung))
         request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
+    if (helper.isUndefined(request.body.details))
         request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
+    if (helper.isUndefined(request.body.nettopreis))
         errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
+    if (!helper.isNumeric(request.body.nettopreis))
         errorMsgs.push("nettopreis muss eine Zahl sein");
     if (helper.isUndefined(request.body.kategorie)) {
         errorMsgs.push("kategorie fehlt");
     } else if (helper.isUndefined(request.body.kategorie.id)) {
         errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
+    }
     if (helper.isUndefined(request.body.mehrwertsteuer)) {
         errorMsgs.push("mehrwertsteuer fehlt");
     } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
         errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
+    }
     if (helper.isUndefined(request.body.datenblatt)) {
         request.body.datenblatt = null;
     } else if (helper.isUndefined(request.body.datenblatt.id)) {
@@ -90,9 +90,9 @@ serviceRouter.post("/produkt", function(request, response) {
     } else {
         request.body.datenblatt = request.body.datenblatt.id;
     }
-    if (helper.isUndefined(request.body.bilder)) 
+    if (helper.isUndefined(request.body.bilder))
         request.body.bilder = [];
-    
+
     if (errorMsgs.length > 0) {
         helper.log("Service Produkt: Creation not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
@@ -114,28 +114,28 @@ serviceRouter.put("/produkt", function(request, response) {
     helper.log("Service Produkt: Client requested update of existing record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.id)) 
+    if (helper.isUndefined(request.body.id))
         errorMsgs.push("id fehlt");
-    if (helper.isUndefined(request.body.bezeichnung)) 
+    if (helper.isUndefined(request.body.bezeichnung))
         errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
+    if (helper.isUndefined(request.body.beschreibung))
         request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
+    if (helper.isUndefined(request.body.details))
         request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
+    if (helper.isUndefined(request.body.nettopreis))
         errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
+    if (!helper.isNumeric(request.body.nettopreis))
         errorMsgs.push("nettopreis muss eine Zahl sein");
     if (helper.isUndefined(request.body.kategorie)) {
         errorMsgs.push("kategorie fehlt");
     } else if (helper.isUndefined(request.body.kategorie.id)) {
         errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
+    }
     if (helper.isUndefined(request.body.mehrwertsteuer)) {
         errorMsgs.push("mehrwertsteuer fehlt");
     } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
         errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
+    }
     if (helper.isUndefined(request.body.datenblatt)) {
         request.body.datenblatt = null;
     } else if (helper.isUndefined(request.body.datenblatt.id)) {
@@ -143,7 +143,7 @@ serviceRouter.put("/produkt", function(request, response) {
     } else {
         request.body.datenblatt = request.body.datenblatt.id;
     }
-    if (helper.isUndefined(request.body.bilder)) 
+    if (helper.isUndefined(request.body.bilder))
         request.body.bilder = [];
 
     if (errorMsgs.length > 0) {
@@ -160,22 +160,18 @@ serviceRouter.put("/produkt", function(request, response) {
     } catch (ex) {
         helper.logError("Service Produkt: Error updating record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
-    }    
+    }
 });
 
 serviceRouter.delete("/produkt/:id", function(request, response) {
     helper.log("Service Produkt: Client requested deletion of record, id=" + request.params.id);
 
     const produktDao = new ProduktDao(request.app.locals.dbConnection);
-    try {
-        var obj = produktDao.loadById(request.params.id);
+
         produktDao.delete(request.params.id);
         helper.log("Service Produkt: Deletion of record successfull, id=" + request.params.id);
-        response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
-    } catch (ex) {
-        helper.logError("Service Produkt: Error deleting record. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
+        response.status(200).json(helper.jsonMsgOK({ "gelöscht": true}));
+
 });
 
 module.exports = serviceRouter;
