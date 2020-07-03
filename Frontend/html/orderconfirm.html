@@ -60,8 +60,8 @@
 							tmp += '<tr>';
 							tmp += '<td><a href="produktdetail.html?produkt=' + response.daten[i].produkt.id + '" style="color: black;">' + response.daten[i].produkt.name + '</a></td>';
 							tmp += '<td>' + response.daten[i].menge + '</td>';
-							tmp += '<td>' + response.daten[i].produkt.bruttopreis.toString().replace(".", ",") + ' €</td>';
-							tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + ' €</td>';
+							tmp += '<td>' + response.daten[i].produkt.bruttopreis.toString().replace(".", ",") + '€</td>';
+							tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + '€</td>';
 							tmp += '</tr>';
 						} // end for
 
@@ -78,13 +78,13 @@
 						tmp += '<td></td>';
 						tmp += '<td></td>';
 						tmp += '<td>inkl. 19% MwSt.</td>';
-						tmp += '<td>' + Number(gesamtMWST).toFixed(2).toString().replace(".", ",") + ' €</td>';
+						tmp += '<td>' + Number(gesamtMWST).toFixed(2).toString().replace(".", ",") + '€</td>';
 						tmp += '</tr>';
 						tmp += '<tr>';
 						tmp += '<td>Gesamtkosten:</td>';
 						tmp += '<td></td>';
 						tmp += '<td></td>';
-						tmp += '<td>' + Number(Gesamtkosten).toFixed(2).toString().replace(".", ",") + ' €</td>';
+						tmp += '<td>' + Number(Gesamtkosten).toFixed(2).toString().replace(".", ",") + '€</td>';
 						tmp += '<td></td>';
 						tmp += '</tr>';
 						tmp += '</table>';

@@ -49,8 +49,8 @@
             tmp += '<td><a href="produktdetail.html?produkt=' + response.daten[i].produkt.id + '" style="color: black;">' + response.daten[i].produkt.name + '</a></td>';
             tmp += '<td><input id="Input' + response.daten[i].produkt.id + '" step="1" data-step-max="10" type="number" value="' + response.daten[i].menge +
               '" data-decimals="0" min="1" max="360" class="col-3" /><button onclick="Change(' + response.daten[i].produkt.id + ')">Menge ändern</button></td>';
-            tmp += '<td>' + response.daten[i].produkt.bruttopreis.toString().replace(".", ",") + ' €</td>';
-            tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + ' €</td>';
+            tmp += '<td>' + response.daten[i].produkt.bruttopreis.toString().replace(".", ",") + '€</td>';
+            tmp += '<td>' + Number(response.daten[i].produkt.bruttopreis * response.daten[i].menge).toFixed(2).toString().replace(".", ",") + '€</td>';
             tmp += '<td><button onclick="DeleteItem(' + response.daten[i].produkt.id + ')" class="button">X</button></td>';
             tmp += '</tr>';
           } // end for
@@ -76,7 +76,7 @@
           tmp += '<td>Gesamtkosten:</td>';
           tmp += '<td></td>';
           tmp += '<td></td>';
-          tmp += '<td>' + Number(Gesamtkosten).toFixed(2).toString().replace(".", ",") + ' €</td>';
+          tmp += '<td>' + Number(Gesamtkosten).toFixed(2).toString().replace(".", ",") + '€</td>';
           tmp += '<td></td>';
           tmp += '</tr>';
           tmp += '<tr>';
