@@ -24,4 +24,8 @@ test('Bieten wir in unserem Shop das Produkt ALCLEAR Waschhandschuh an?', () => 
 test('Ist der Nettopreis der Lackknete korrekt', () => {
     expect(dao.loadAllByCategoryId(1)[1].nettopreis).toEqual(14.277);
   });
+
+test('Gibt es bei der Tabelle Mehrwertsteuer den Eintrag mit der ID 1?', () => {
+    expect(dao2.exists(1)).toBeTruthy();
+  });
   
