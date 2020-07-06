@@ -16,3 +16,8 @@ module.exports=ProduktDao;
 test('Test ob die Connection vorhanden ist', () => {
     expect(dao.getConnection()).toBeTruthy();
   });
+  
+test('Bieten wir in unserem Shop das Produkt ALCLEAR Waschhandschuh an?', () => {
+    expect(dao.loadById(1).name).toEqual("ALCLEAR Waschhandschuh");
+  });
+  
