@@ -20,4 +20,8 @@ test('Test ob die Connection vorhanden ist', () => {
 test('Bieten wir in unserem Shop das Produkt ALCLEAR Waschhandschuh an?', () => {
     expect(dao.loadById(1).name).toEqual("ALCLEAR Waschhandschuh");
   });
+
+test('Ist der Nettopreis der Lackknete korrekt', () => {
+    expect(dao.loadAllByCategoryId(1)[1].nettopreis).toEqual(14.277);
+  });
   
