@@ -13,3 +13,6 @@ module.exports=ProduktDao;
 
 
 
+test('Test ob die Connection vorhanden ist', () => {
+    expect(dao.getConnection()).toBeTruthy();
+  });
