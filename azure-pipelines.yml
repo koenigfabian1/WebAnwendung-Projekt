@@ -16,7 +16,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    cd Jest
+    cd Testing
     npm config set user 0
     npm config set unsafe-perm true
     npm i -g jest
