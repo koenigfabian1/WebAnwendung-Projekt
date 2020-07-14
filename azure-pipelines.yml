@@ -17,12 +17,12 @@ steps:
 
 - script: |
     cd Testing
+    npm i polyfill-object.fromentries
+    npm install fromentries
     npm config set user 0
     npm config set unsafe-perm true
     npm i -g jest
     npm install better-sqlite3
-    npm i polyfill-object.fromentries
-    npm install fromentries
     npm install
     npm test
   displayName: 'npm install and build'
